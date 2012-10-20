@@ -1,6 +1,6 @@
 /**
  * jquery.stickOnScroll.js
- * 
+ * A jQuery plugin for making element fixed on the page.
  * 
  * Created by Paul Tavares on 2012-10-19.
  * Copyright 2012 Paul Tavares. All rights reserved.
@@ -9,8 +9,11 @@
 ;(function($){
     
     /**
-     * 
+     * Watches the selected elements for when they reach the top
+     * of the viewport and makes then sticky (fixed) at that point.
+     *  
      * @param {Object} options
+     * 
      */
     $.fn.stickOnScroll = function(options) {
         return this.each(function(){
@@ -19,8 +22,7 @@
                             bottomOffset: 0,
                             footerElement: null,
                             viewport: window,
-                            document: document,
-                            stickClass: 'isFixed'
+                            stickClass: 'stickOnScroll-on'
                         }, options),
                 ele     = $(this).addClass("hasStickOnScroll"),
                 isStick = false;
@@ -39,31 +41,26 @@
             o.viewport.on("scroll", function(ev){
                 
                 // Get the scroll top position on the view port
-                // and set the maxTop before we stik the element
+                // and set the maxTop before we stick the element
                 // to be it's "normal" topPosition minus offset
                 var scrollTop       = o.viewport.scrollTop(),
                     maxTop          = (o.eleTop - o.topOffset);
               
-                
                 // If the current scrollTop position plus the topOffset is greater
                 // than our maxTop value, then make element stick on the page.
                 if ((scrollTop + o.topOffset) > maxTop) {
          
-                    // If Stick not yet set, then do it now.
-                    if (!isStick) {
-                        o.eleStickTop = ele.position().top;
-                        ele.css({
-                                position: "fixed",
-                                top: o.topOffset
-                            })
-                            .addClass(o.stickClass);
-                        isStick = true;
-                        
-                        
-                    // If stick already done, then check to see if it we're
-                    // reaching the footer element, and if so, scroll the 
-                    // item up with the page
-                    } else if  (isStick && o.footerElement) {
+                    o.eleStickTop = ele.position().top;
+                    ele.css({
+                            position: "fixed",
+                            top: o.topOffset
+                        })
+                        .addClass(o.stickClass);
+                    isStick = true;
+
+                    // check to see if it we're reaching the footer element,
+                    // and if so, scroll the item up with the page
+                    if  (o.footerElement) {
                         
                         // Calculate the distance from the *bottom* of the fixed
                         // element to the footer element, taking into consideration
@@ -76,16 +73,7 @@
                         var yAxis = (eleHeightFromViewPort + o.bottomOffset);                        
                    
                         if (yAxis > footerTop) {
-                            var newTop = footerTop - (  scrollTop + eleHeight + o.topOffset  );
-                            ele.css("top", newTop);
-
-                            // if element is now completely hidden, then set 
-                            // display to none.
-                            if ((-1 * newTop) > (eleHeight + 2)) {
-                                ele.css("display", "none")
-                            } else {
-                                ele.css("display", "")
-                            }
+                            ele.css("top", footerTop - (  scrollTop + eleHeight + o.topOffset  ));
                             
                         } else {
                             ele.css("top", o.topOffset);
