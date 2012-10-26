@@ -1,6 +1,8 @@
 jquery.stickOnScroll
 ====================
 
+**SEE PROJECT WEB SITE: http://purtuga.github.com/jquery.stickOnScroll/**
+
 A jQuery plugin for making elements fixed on the top of the page when scrolling reaches the desired top offset from the viewport (window). The plugin will also scroll that element back up if a footer element is defined. The footer element is watched to see when it comes close to the bottom edge of the fixed element (an offset is provided).
 
 Usage
