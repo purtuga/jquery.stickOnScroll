@@ -5,21 +5,84 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Jquery.stickonscroll by purtuga</title>
 
+    <link rel="stylesheet" href="stylesheets/main.css">
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/main.js"></script>
+    <script type="text/javascript" src="https://raw.github.com/purtuga/jquery.stickOnScroll/master/src/jquery.stickOnScroll.js"></script>
+    <script type="text/javascript">
+        
+        $(function(){
+            // Make the header ALWAYS sticky
+            var ele = $("#h1title");
+            ele.parent()
+                    .css("height", ele.outerHeight())
+                    .end()
+                .css("width", ele.outerWidth())
+                .stickOnScroll();
+            
+            
+            // Make the documentation headers stick
+            var hHeight = ele.outerHeight() + 20;
+            $("#content h2").each(function(){
+                var e = $(this), fEle = e.nextAll("h2").eq(0);
+                if (fEle.length === 0) {
+                    fEle = null;
+                }
+                e.css("width", e.outerWidth())
+                    .stickOnScroll({
+                    topOffset:      hHeight,
+                    footerElement:  fEle,
+                    bottomOffset:   100
+                });
+            });
+            
+            
+        });
+        
+    </script>
+    <style>
+        #content {
+            min-height: 4000px;
+        }
+        #h1title.stickOnScroll-on {
+            background-color: white;
+            padding-bottom: .8em;
+            z-index: 10;
+        }
+        h2.stickOnScroll-on {
+            padding-bottom: 1em;
+            background-color: white;
+        }
+        footer {
+            margin-bottom: 1000px;
+        }
+    </style>
+    
+    
   </head>
   <body>
     <div class="wrapper">
       <header>
-        <h1>Jquery.stickonscroll</h1>
+        <div>
+            <h1>Jquery.stickonscroll</h1>
+        </div>
         <p>A jQuery plugin for making elements fixed on the top of the page when scrolling and scrolling that item up when it a specified footer element gets &quot;close&quot;.</p>
-
+        
+        
+        <h2>Demo</h2>
+        <p>This page is using the plugin to stick the help topic headers (to the right) to the top of the page as you scroll down.</p>
+        <p>
+            See the standalone <a href="demo/example-01.html">demo page</a> for examples on usage.
+        </p>
+        
         <p class="view"><a href="https://github.com/purtuga/jquery.stickOnScroll">View the Project on GitHub <small>purtuga/jquery.stickOnScroll</small></a></p>
-
 
         <ul>
           <li><a href="https://github.com/purtuga/jquery.stickOnScroll/zipball/master">Download <strong>ZIP File</strong></a></li>
@@ -27,33 +90,90 @@
           <li><a href="https://github.com/purtuga/jquery.stickOnScroll">View On <strong>GitHub</strong></a></li>
         </ul>
       </header>
-      <section>
-        <h3>Welcome to GitHub Pages.</h3>
+      <section id="content">
+       
+       <h1 id="h1title">jquery.stickOnScroll</h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>A jQuery plugin for making elements fixed on the top of the page when scrolling reaches the desired top offset from the viewport (window). The plugin will also scroll that element back up if a footer element is defined. The footer element is watched to see when it comes close to the bottom edge of the fixed element (an offset is provided).</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<h2>Usage</h2>
+
+<p>Given the following html:</p>
+
+<pre><code>&lt;p&gt;some text here&lt;/p&gt;
+&lt;div class="section-title-container"&gt;
+    &lt;h2 style="width: 100%;"&gt;Section 1&lt;/h2&gt;
+&lt;/div&gt;
+&lt;p&gt;Some text here&lt;/p&gt;
+&lt;p&gt;Some text here&lt;/p&gt;
+&lt;p&gt;Some text here&lt;/p&gt;
+&lt;p&gt;Some text here&lt;/p&gt;
+&lt;p&gt;Some text here&lt;/p&gt;
+&lt;p&gt;Some text here&lt;/p&gt;
+&lt;p id="section1footer"&gt;Some text here&lt;/p&gt;
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<p>And the following javascript code:</p>
 
-<h3>Designer Templates</h3>
+<pre><code>var ele = $("div.section-title-container");
+ele.css("height", ele.outerHeight())
+    .find("h2")
+        .stickOnScroll({
+            footerElement:  $("#section1footer"),
+            bootomOffset:   20
+        });
+});
+</code></pre>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<p>Will make the h2 heading "Section 1" stick to the top of the page (css position: fixed) and will watch for when the footer element (the paragraph with id = section1footer) comes within 20 pixels of the bottom of the h2 element at which point, the header is scrolled up with the normal flow of the page.</p>
 
-<h3>Rather Drive Stick?</h3>
+<p>Note that in the example above I set the height of the div.section-title-container. This was just for demonstrations purposes and could have been achieved via other methods, The reason for setting the height of the element around the header is that once the header is fixed on the page, it is removed from the normal flow of the document. By setting the surrounding element's height, the document structure should be maintained when the header is moved to position: position.</p>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p>This plugin will manipulate the following css properties on the element that will be fixed:</p>
 
-<h3>Authors and Contributors</h3>
+<ul>
+<li>top</li>
+<li>position</li>
+</ul>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<h2>Options</h2>
 
-<h3>Support or Contact</h3>
+<ul>
+<li><strong>topOffset</strong>       :   <em>Integer. Optional. Default=0</em> <br />
+                        The number of pixels from the top of the viewport (window) before the element triggers to fixed. <strong>Note:</strong> This value must be an integer. </li>
+<li><strong>bottomOffset</strong>    :   <em>Integer. Optional. Default=0</em> <br />
+                        The number of pixels between the bottom of the fixed element and the top of the footer before the fixed element scrolls back up the page.</li>
+<li><strong>footerElement</strong>   :   <em>HTMLElement|jQuery|selector. Optional. Default=null</em> <br />
+                        The footer element to be used for triggering the fixed element to scroll back up.</li>
+<li><strong>stickClass</strong>      :   *String. Optional. Default="stickOnScroll-on" * <br />
+                        The class name that will be added to the fixed element when it is fixed on the page.</li>
+</ul>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<h2>License</h2>
+
+<p>Release under the terms of the <a href="http://www.opensource.org/licenses/mit-license.php">MIT</a> License.</p>
+
+<p><em>Copyright 2012 <a href="http://paultavares.wordpress.com/">Paul Tavares</a>. All rights reserved.</em></p>
+
+
+
+<!---------------------------------------------------->
+
+        
+        <h2>Author</h2>
+        
+        <span id="ptAuthorInfo">
+        <p><a href="http://paultavares.wordpress.com">Paul Tavares</a> @purtuga</p>
+        
+        <p>Follow me at Twitter <a href="https://twitter.com/paul_tavares">@paul_tavares</a></p> 
+        </span>
+
+    
+
+
+
+
+       
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/purtuga">purtuga</a></p>
