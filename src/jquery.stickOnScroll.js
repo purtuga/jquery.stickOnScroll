@@ -118,8 +118,9 @@
             o.isStick   = false,
             o.ele       = $(this).addClass("hasStickOnScroll"),
             o.viewport  = $(o.viewport),
-            o.eleTop    = o.ele.position().top,
-            viewportKey = o.viewport.prop("stickOnScroll");
+            o.eleTop    = o.ele.position().top;
+            
+            var viewportKey = o.viewport.prop("stickOnScroll");
             
             // If this viewport is not yet defined, set it up now 
             if (!viewportKey) {
