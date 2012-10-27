@@ -9,13 +9,28 @@
         <script>
             $(function() {
                 
-                //Example 1
-                $("#menu").stickOnScroll({
-                    topOffset: 0
-                });
+                $("#menu").stickOnScroll();
                 
-                // Example 2
+                $("#left")
+                    .stickOnScroll({
+                        topOffset:      $("#menu").outerHeight(),
+                        footerElement:  $("#bottom"),
+                        bottomOffset:   100 
+                    });
+                
+                /**
+                 * In the examples below, the height of the parent container
+                 * to the element that will be "stick" is set prior to calling
+                 * the plugin.  Doing this will ensure that the page's structure
+                 * is maintained after the "stick" element is removed from the
+                 * normal document flow and fixed in a static position.
+                 */
+                
+                /************************ LEFT PANEL EXAMPLE **********/
                 $("#section1")
+                    .parent()
+                        .css("height", $("#section1").outerHeight())
+                        .end()
                     .css("background-color", "red")
                     .stickOnScroll({
                         topOffset:      0,
@@ -24,7 +39,6 @@
                         viewport:       $("#left")
                     });
                 
-                // // Example 2
                 $("#section2")
                     .parent()
                         .css("height", $("#section2").outerHeight())
@@ -32,22 +46,87 @@
                     .css("background-color", "green")
                     .stickOnScroll({
                         footerElement:  $("#section2footer"),
-                        bottomOffset:   100,
+                        bottomOffset:   0,
                         viewport:       $("#left")
                     });
                  
-                // Example 3
                 $("#section3")
+                        .parent()
+                            .css("height", $("#section4").outerHeight())
+                            .end()
                         .css("background-color", "blue")
+                        .stickOnScroll({
+                            viewport:   $("#left"),
+                            footerElement: $("#section4").parent()
+                        });
+                $("#section4")
+                        .parent()
+                            .css("height", $("#section4").outerHeight())
+                            .end()
+                        .css("background-color", "purple")
+                        .stickOnScroll({
+                            viewport:   $("#left"),
+                            footerElement: $("#section5").parent()
+                        });
+                $("#section5")
+                        .parent()
+                            .css("height", $("#section5").outerHeight())
+                            .end()
+                        .css("background-color", "teal")
                         .stickOnScroll({
                             viewport:   $("#left")
                         });
+                        
+                        
+                /************************ RIGHT PANEL EXAMPLE **********/
+                $("#section6")
+                        .parent()
+                            .css("height", $("#section6").outerHeight())
+                            .end()
+                        .css("background-color", "brown")
+                        .stickOnScroll({
+                            topOffset:      $("#menu").outerHeight(),
+                            footerElement:  $("#section7").parent(),
+                            bottomOffset:   $("#menu").outerHeight()
+                        });
+                $("#section7")
+                        .parent()
+                            .css("height", $("#section7").outerHeight())
+                            .end()
+                        .css("background-color", "yellow")
+                        .stickOnScroll({
+                            topOffset:      $("#menu").outerHeight(),
+                            footerElement:  $("#section8").parent(),
+                            bottomOffset:   $("#menu").outerHeight()
+                        });
+                $("#section8")
+                        .parent()
+                            .css("height", $("#section8").outerHeight())
+                            .end()
+                        .css("background-color", "purple")
+                        .stickOnScroll({
+                            topOffset:      $("#menu").outerHeight(),
+                            footerElement:  $("#section9").parent(),
+                            bottomOffset:   $("#menu").outerHeight()
+                        });
+                
+                $("#section9")
+                        .parent()
+                            .css("height", $("#section9").outerHeight())
+                            .end()
+                        .css("background-color", "green")
+                        .stickOnScroll({
+                            topOffset:      $("#menu").outerHeight(),
+                            footerElement:  $("#bottom"),
+                            bottomOffset:   100 
+                        });
+               
             });
         </script>
         <style>
             body {
                 height: 10000px;
-                padding: 0;
+                padding: 1em;
                 margin: 0;
                 font-size: 14pt;
                 line-height: 2em;
@@ -68,14 +147,19 @@
                 float: left;
                 left: 0px;
                 width: 30%;
-                border-right: 3px solid blue;
+                border: 3px solid blue;
                 height: 500px;
                 overflow: auto;
                 position: relative;
+                padding: .5em;
+            }
+            #left.stickOnScroll-on {
+                left: 1em;
             }
             #right {
                 float: right;
-                width: 67%;
+                width: 65%;
+                padding: .5em;
             }
             
             
@@ -83,23 +167,21 @@
             div.section-header {
                 background-color: grey;
                 width: 100%;
-            }
-            div.section-header {
                 padding: .5em .5em;
                 font-size: 2em;
                 font-weight: bold;
             }
             div.section-footer {
-                height: 2px;
                 background-color: black;
+                color: white;
             }
             
         </style>
     </head>
     <body>
-        <h1>Example Demo</h1>
+        <h1>jQuery.stickOnScroll.js Demo</h1>
         <p>
-           Pork belly corned beef bresaola ribeye tenderloin tri-tip andouille filet mignon chicken sirloin boudin tongue shoulder beef.  Shankle fatback bresaola shoulder tri-tip capicola.  Tail hamburger pancetta prosciutto tri-tip.  T-bone pork chop short ribs pancetta.  Flank jerky strip steak ribeye pig.
+           This page contains several examples of this plugin in action.  All colored items on the page are "stick" when scrolled... either to the window or to the scrolling element (the Left area below). 
         </p>
         <div>
             <div id="menu">
@@ -115,8 +197,10 @@
                     Bacon ipsum dolor sit amet pig pork loin ground round sirloin chuck tongue drumstick.  Filet mignon meatball prosciutto turducken pig chuck.  Brisket sirloin meatball, leberkas turducken kielbasa bresaola jerky tenderloin drumstick cow chicken andouille beef ribs short ribs.  Pastrami fatback tongue chicken tail.  Jowl brisket turducken hamburger.
                 </p>
                 
-                <div id="section1" class="section-header" data-stickonscroll="section1">
-                    Section 1
+                <div>
+                    <div id="section1" class="section-header" data-stickonscroll="section1">
+                        #Section 1
+                    </div>
                 </div>
                 
                 <p>
@@ -131,12 +215,14 @@
                 <p>
                     Rump sirloin short loin, turducken ham hock ribeye tri-tip capicola drumstick corned beef shankle pork belly biltong.  Short loin t-bone spare ribs jowl turducken pork belly tongue.  Pork loin sirloin spare ribs, beef ribs boudin rump meatball shank frankfurter.  Ball tip pork belly tail spare ribs tri-tip jowl, jerky rump t-bone sirloin andouille pork loin biltong ham.  Beef cow bacon sirloin jowl meatball pig strip steak turducken bresaola pork chop kielbasa spare ribs rump turkey.
                 </p>                                
-                <div id="section1footer" class="section-footer"></div>
+                <div id="section1footer" class="section-footer">
+                    Section 1 footer
+                </div>
                 
                 
                 <div>
                     <div id="section2" class="section-header" data-stickonscroll="section2">
-                        Section 2
+                        #Section 2
                     </div>  
                 </div>
                 <p>
@@ -151,13 +237,51 @@
                 <p>
                     Rump sirloin short loin, turducken ham hock ribeye tri-tip capicola drumstick corned beef shankle pork belly biltong.  Short loin t-bone spare ribs jowl turducken pork belly tongue.  Pork loin sirloin spare ribs, beef ribs boudin rump meatball shank frankfurter.  Ball tip pork belly tail spare ribs tri-tip jowl, jerky rump t-bone sirloin andouille pork loin biltong ham.  Beef cow bacon sirloin jowl meatball pig strip steak turducken bresaola pork chop kielbasa spare ribs rump turkey.
                 </p>                
-                <div id="section2footer" class="section-footer"></div>
+                <div id="section2footer" class="section-footer">
+                    section 2 footer
+                </div>
     
+                <div>
+                    <div id="section3" class="section-header" data-stickonscroll="section3">
+                        #Section 3
+                    </div>
+                </div>
+                <p>
+                    Bacon ipsum dolor sit amet pig pork loin ground round sirloin chuck tongue drumstick.  Filet mignon meatball prosciutto turducken pig chuck.  Brisket sirloin meatball, leberkas turducken kielbasa bresaola jerky tenderloin drumstick cow chicken andouille beef ribs short ribs.  Pastrami fatback tongue chicken tail.  Jowl brisket turducken hamburger.
+                </p>
+                <p>
+                    Pork belly corned beef bresaola ribeye tenderloin tri-tip andouille filet mignon chicken sirloin boudin tongue shoulder beef.  Shankle fatback bresaola shoulder tri-tip capicola.  Tail hamburger pancetta prosciutto tri-tip.  T-bone pork chop short ribs pancetta.  Flank jerky strip steak ribeye pig.
+                </p>
+                <p>
+                    Ball tip meatloaf rump leberkas salami pork ground round t-bone pork loin shank.  Turducken jerky tongue cow tenderloin, t-bone beef boudin pork chop meatball shankle.  Leberkas swine turkey meatloaf jowl short ribs flank tail ball tip.  Boudin ground round tongue, turkey bresaola swine hamburger sausage pastrami cow.  Pork belly frankfurter shoulder chicken capicola boudin.  Meatloaf pork belly meatball, turkey sausage ribeye pork chop ham hock pork loin leberkas pork.  Ham hock chuck drumstick tenderloin, spare ribs andouille brisket prosciutto turducken.
+                </p>
+                <p>
+                    Rump sirloin short loin, turducken ham hock ribeye tri-tip capicola drumstick corned beef shankle pork belly biltong.  Short loin t-bone spare ribs jowl turducken pork belly tongue.  Pork loin sirloin spare ribs, beef ribs boudin rump meatball shank frankfurter.  Ball tip pork belly tail spare ribs tri-tip jowl, jerky rump t-bone sirloin andouille pork loin biltong ham.  Beef cow bacon sirloin jowl meatball pig strip steak turducken bresaola pork chop kielbasa spare ribs rump turkey.
+                </p>
                 
+                <div>
+                    <div id="section4" class="section-header" data-stickonscroll="section4">
+                        #Section 4
+                    </div>
+                </div>
+                <p>
+                    Bacon ipsum dolor sit amet pig pork loin ground round sirloin chuck tongue drumstick.  Filet mignon meatball prosciutto turducken pig chuck.  Brisket sirloin meatball, leberkas turducken kielbasa bresaola jerky tenderloin drumstick cow chicken andouille beef ribs short ribs.  Pastrami fatback tongue chicken tail.  Jowl brisket turducken hamburger.
+                </p>
+                <p>
+                    Pork belly corned beef bresaola ribeye tenderloin tri-tip andouille filet mignon chicken sirloin boudin tongue shoulder beef.  Shankle fatback bresaola shoulder tri-tip capicola.  Tail hamburger pancetta prosciutto tri-tip.  T-bone pork chop short ribs pancetta.  Flank jerky strip steak ribeye pig.
+                </p>
+                <p>
+                    Ball tip meatloaf rump leberkas salami pork ground round t-bone pork loin shank.  Turducken jerky tongue cow tenderloin, t-bone beef boudin pork chop meatball shankle.  Leberkas swine turkey meatloaf jowl short ribs flank tail ball tip.  Boudin ground round tongue, turkey bresaola swine hamburger sausage pastrami cow.  Pork belly frankfurter shoulder chicken capicola boudin.  Meatloaf pork belly meatball, turkey sausage ribeye pork chop ham hock pork loin leberkas pork.  Ham hock chuck drumstick tenderloin, spare ribs andouille brisket prosciutto turducken.
+                </p>
+                <p>
+                    Rump sirloin short loin, turducken ham hock ribeye tri-tip capicola drumstick corned beef shankle pork belly biltong.  Short loin t-bone spare ribs jowl turducken pork belly tongue.  Pork loin sirloin spare ribs, beef ribs boudin rump meatball shank frankfurter.  Ball tip pork belly tail spare ribs tri-tip jowl, jerky rump t-bone sirloin andouille pork loin biltong ham.  Beef cow bacon sirloin jowl meatball pig strip steak turducken bresaola pork chop kielbasa spare ribs rump turkey.
+                </p>
                 
-                <div id="section3" class="section-header" data-stickonscroll="section3">
-                    Section 3
-                </div>            
+                <div>
+                    <div id="section5" class="section-header" data-stickonscroll="section5">
+                        #Section 5
+                    </div>
+                </div>
                 <p>
                     Bacon ipsum dolor sit amet pig pork loin ground round sirloin chuck tongue drumstick.  Filet mignon meatball prosciutto turducken pig chuck.  Brisket sirloin meatball, leberkas turducken kielbasa bresaola jerky tenderloin drumstick cow chicken andouille beef ribs short ribs.  Pastrami fatback tongue chicken tail.  Jowl brisket turducken hamburger.
                 </p>
@@ -172,6 +296,9 @@
                 </p>
                 
             </div>
+            <!--
+                RIGHT SIDE OF PAGE.
+            -->
             <div id="right">
                 <h3>Right pane content.</h3>
                 <p>
@@ -189,6 +316,13 @@
                 <p>
                     Rump sirloin short loin, turducken ham hock ribeye tri-tip capicola drumstick corned beef shankle pork belly biltong.  Short loin t-bone spare ribs jowl turducken pork belly tongue.  Pork loin sirloin spare ribs, beef ribs boudin rump meatball shank frankfurter.  Ball tip pork belly tail spare ribs tri-tip jowl, jerky rump t-bone sirloin andouille pork loin biltong ham.  Beef cow bacon sirloin jowl meatball pig strip steak turducken bresaola pork chop kielbasa spare ribs rump turkey.
                 </p>
+                
+                
+                <div>
+                    <div id="section6" class="section-header" data-stickonscroll="section6">
+                        #Section 6
+                    </div>
+                </div>
                 <p>
                     Rump sirloin short loin, turducken ham hock ribeye tri-tip capicola drumstick corned beef shankle pork belly biltong.  Short loin t-bone spare ribs jowl turducken pork belly tongue.  Pork loin sirloin spare ribs, beef ribs boudin rump meatball shank frankfurter.  Ball tip pork belly tail spare ribs tri-tip jowl, jerky rump t-bone sirloin andouille pork loin biltong ham.  Beef cow bacon sirloin jowl meatball pig strip steak turducken bresaola pork chop kielbasa spare ribs rump turkey.
                 </p>
@@ -216,6 +350,40 @@
                 <p>
                     Sirloin salami chuck, bresaola beef ribs jerky spare ribs meatloaf frankfurter beef.  Drumstick pork belly turkey cow.  Sausage ball tip brisket bresaola, venison swine tail ribeye cow beef ribs sirloin meatball pork chop pork belly.  Turducken tri-tip short loin, beef ribs fatback andouille jowl meatball doner jerky pig ball tip shank meatloaf.  Ribeye short loin meatloaf pastrami, hamburger sausage pork belly.  Venison flank sirloin pork doner kielbasa andouille strip steak ribeye spare ribs ham.  Ribeye capicola strip steak boudin fatback bresaola, ground round hamburger tri-tip.
                 </p>
+                
+                <div style="position: relative;">
+                    <p>
+                        <strong>This section (7) is inside a 'position:relative' area.</strong>
+                    </p>
+                    <div>
+                        <div id="section7" class="section-header" data-stickonscroll="section7">
+                            #Section 7
+                        </div>
+                    </div>
+                    <p>
+                        Sirloin salami chuck, bresaola beef ribs jerky spare ribs meatloaf frankfurter beef.  Drumstick pork belly turkey cow.  Sausage ball tip brisket bresaola, venison swine tail ribeye cow beef ribs sirloin meatball pork chop pork belly.  Turducken tri-tip short loin, beef ribs fatback andouille jowl meatball doner jerky pig ball tip shank meatloaf.  Ribeye short loin meatloaf pastrami, hamburger sausage pork belly.  Venison flank sirloin pork doner kielbasa andouille strip steak ribeye spare ribs ham.  Ribeye capicola strip steak boudin fatback bresaola, ground round hamburger tri-tip.
+                    </p>
+                    <p>
+                        Sirloin salami chuck, bresaola beef ribs jerky spare ribs meatloaf frankfurter beef.  Drumstick pork belly turkey cow.  Sausage ball tip brisket bresaola, venison swine tail ribeye cow beef ribs sirloin meatball pork chop pork belly.  Turducken tri-tip short loin, beef ribs fatback andouille jowl meatball doner jerky pig ball tip shank meatloaf.  Ribeye short loin meatloaf pastrami, hamburger sausage pork belly.  Venison flank sirloin pork doner kielbasa andouille strip steak ribeye spare ribs ham.  Ribeye capicola strip steak boudin fatback bresaola, ground round hamburger tri-tip.
+                    </p>
+                    <p>
+                        Sirloin salami chuck, bresaola beef ribs jerky spare ribs meatloaf frankfurter beef.  Drumstick pork belly turkey cow.  Sausage ball tip brisket bresaola, venison swine tail ribeye cow beef ribs sirloin meatball pork chop pork belly.  Turducken tri-tip short loin, beef ribs fatback andouille jowl meatball doner jerky pig ball tip shank meatloaf.  Ribeye short loin meatloaf pastrami, hamburger sausage pork belly.  Venison flank sirloin pork doner kielbasa andouille strip steak ribeye spare ribs ham.  Ribeye capicola strip steak boudin fatback bresaola, ground round hamburger tri-tip.
+                    </p>
+                    <p>
+                        Sirloin salami chuck, bresaola beef ribs jerky spare ribs meatloaf frankfurter beef.  Drumstick pork belly turkey cow.  Sausage ball tip brisket bresaola, venison swine tail ribeye cow beef ribs sirloin meatball pork chop pork belly.  Turducken tri-tip short loin, beef ribs fatback andouille jowl meatball doner jerky pig ball tip shank meatloaf.  Ribeye short loin meatloaf pastrami, hamburger sausage pork belly.  Venison flank sirloin pork doner kielbasa andouille strip steak ribeye spare ribs ham.  Ribeye capicola strip steak boudin fatback bresaola, ground round hamburger tri-tip.
+                    </p>
+                </div>
+                
+                
+                
+                
+                
+                
+                <div>
+                    <div id="section8" class="section-header" data-stickonscroll="section8">
+                        #Section 8
+                    </div>
+                </div>
                 <p>
                     Sirloin salami chuck, bresaola beef ribs jerky spare ribs meatloaf frankfurter beef.  Drumstick pork belly turkey cow.  Sausage ball tip brisket bresaola, venison swine tail ribeye cow beef ribs sirloin meatball pork chop pork belly.  Turducken tri-tip short loin, beef ribs fatback andouille jowl meatball doner jerky pig ball tip shank meatloaf.  Ribeye short loin meatloaf pastrami, hamburger sausage pork belly.  Venison flank sirloin pork doner kielbasa andouille strip steak ribeye spare ribs ham.  Ribeye capicola strip steak boudin fatback bresaola, ground round hamburger tri-tip.
                 </p>
@@ -237,18 +405,13 @@
                 <p>
                     Sirloin salami chuck, bresaola beef ribs jerky spare ribs meatloaf frankfurter beef.  Drumstick pork belly turkey cow.  Sausage ball tip brisket bresaola, venison swine tail ribeye cow beef ribs sirloin meatball pork chop pork belly.  Turducken tri-tip short loin, beef ribs fatback andouille jowl meatball doner jerky pig ball tip shank meatloaf.  Ribeye short loin meatloaf pastrami, hamburger sausage pork belly.  Venison flank sirloin pork doner kielbasa andouille strip steak ribeye spare ribs ham.  Ribeye capicola strip steak boudin fatback bresaola, ground round hamburger tri-tip.
                 </p>
-                <p>
-                    Sirloin salami chuck, bresaola beef ribs jerky spare ribs meatloaf frankfurter beef.  Drumstick pork belly turkey cow.  Sausage ball tip brisket bresaola, venison swine tail ribeye cow beef ribs sirloin meatball pork chop pork belly.  Turducken tri-tip short loin, beef ribs fatback andouille jowl meatball doner jerky pig ball tip shank meatloaf.  Ribeye short loin meatloaf pastrami, hamburger sausage pork belly.  Venison flank sirloin pork doner kielbasa andouille strip steak ribeye spare ribs ham.  Ribeye capicola strip steak boudin fatback bresaola, ground round hamburger tri-tip.
-                </p>
-                <p>
-                    Sirloin salami chuck, bresaola beef ribs jerky spare ribs meatloaf frankfurter beef.  Drumstick pork belly turkey cow.  Sausage ball tip brisket bresaola, venison swine tail ribeye cow beef ribs sirloin meatball pork chop pork belly.  Turducken tri-tip short loin, beef ribs fatback andouille jowl meatball doner jerky pig ball tip shank meatloaf.  Ribeye short loin meatloaf pastrami, hamburger sausage pork belly.  Venison flank sirloin pork doner kielbasa andouille strip steak ribeye spare ribs ham.  Ribeye capicola strip steak boudin fatback bresaola, ground round hamburger tri-tip.
-                </p>
-                <p>
-                    Sirloin salami chuck, bresaola beef ribs jerky spare ribs meatloaf frankfurter beef.  Drumstick pork belly turkey cow.  Sausage ball tip brisket bresaola, venison swine tail ribeye cow beef ribs sirloin meatball pork chop pork belly.  Turducken tri-tip short loin, beef ribs fatback andouille jowl meatball doner jerky pig ball tip shank meatloaf.  Ribeye short loin meatloaf pastrami, hamburger sausage pork belly.  Venison flank sirloin pork doner kielbasa andouille strip steak ribeye spare ribs ham.  Ribeye capicola strip steak boudin fatback bresaola, ground round hamburger tri-tip.
-                </p>
-                <p>
-                    Sirloin salami chuck, bresaola beef ribs jerky spare ribs meatloaf frankfurter beef.  Drumstick pork belly turkey cow.  Sausage ball tip brisket bresaola, venison swine tail ribeye cow beef ribs sirloin meatball pork chop pork belly.  Turducken tri-tip short loin, beef ribs fatback andouille jowl meatball doner jerky pig ball tip shank meatloaf.  Ribeye short loin meatloaf pastrami, hamburger sausage pork belly.  Venison flank sirloin pork doner kielbasa andouille strip steak ribeye spare ribs ham.  Ribeye capicola strip steak boudin fatback bresaola, ground round hamburger tri-tip.
-                </p>
+                
+                
+                <div>
+                    <div id="section9" class="section-header" data-stickonscroll="section9">
+                        #Section 9
+                    </div>
+                </div>
                 <p>
                     Sirloin salami chuck, bresaola beef ribs jerky spare ribs meatloaf frankfurter beef.  Drumstick pork belly turkey cow.  Sausage ball tip brisket bresaola, venison swine tail ribeye cow beef ribs sirloin meatball pork chop pork belly.  Turducken tri-tip short loin, beef ribs fatback andouille jowl meatball doner jerky pig ball tip shank meatloaf.  Ribeye short loin meatloaf pastrami, hamburger sausage pork belly.  Venison flank sirloin pork doner kielbasa andouille strip steak ribeye spare ribs ham.  Ribeye capicola strip steak boudin fatback bresaola, ground round hamburger tri-tip.
                 </p>
@@ -269,7 +432,7 @@
                 </p>
             </div>
         </div>
-        <h2>Bottom of page.</h2>
+        <h2 id="bottom">Bottom of page.</h2>
         <p>
             Sirloin salami chuck, bresaola beef ribs jerky spare ribs meatloaf frankfurter beef.  Drumstick pork belly turkey cow.  Sausage ball tip brisket bresaola, venison swine tail ribeye cow beef ribs sirloin meatball pork chop pork belly.  Turducken tri-tip short loin, beef ribs fatback andouille jowl meatball doner jerky pig ball tip shank meatloaf.  Ribeye short loin meatloaf pastrami, hamburger sausage pork belly.  Venison flank sirloin pork doner kielbasa andouille strip steak ribeye spare ribs ham.  Ribeye capicola strip steak boudin fatback bresaola, ground round hamburger tri-tip.
         </p>
