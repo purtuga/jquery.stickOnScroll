@@ -185,7 +185,7 @@
             o.footerElement = $(o.footerElement),
             o.isWindow      = true;
             
-            if ($.isWindow(o.viewport[0])) {
+            if (!$.isWindow(o.viewport[0])) {
                 o.isWindow  = false;
                 o.eleTop    = o.ele.position().top;
             }
