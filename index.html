@@ -37,10 +37,10 @@
                 }
                 e.css("width", e.outerWidth())
                     .stickOnScroll({
-                    topOffset:      hHeight,
-                    footerElement:  fEle,
-                    bottomOffset:   100
-                });
+                        topOffset:      hHeight,
+                        footerElement:  fEle,
+                        bottomOffset:   100
+                    });
             });
             
             
@@ -96,9 +96,9 @@
       </header>
       <section id="content">
        
-       <h1 id="h1title">jquery.stickOnScroll</h1>
+<h1>jquery.stickOnScroll</h1>
 
-<p>A jQuery plugin for making elements fixed on the top of the page when scrolling reaches the desired top offset from the viewport (window). The plugin will also scroll that element back up if a footer element is defined. The footer element is watched to see when it comes close to the bottom edge of the fixed element (an offset is provided).</p>
+<p>A jQuery plugin for making elements fixed on the top of the page when scrolling reaches the desired top offset from the viewport (window or fixed height element with overflow=auto|scroll). The plugin will also scroll that element back up if a footer element is defined. The footer element is watched to see when it comes close to the bottom edge of the fixed element (an offset is provided).</p>
 
 <h2>Usage</h2>
 
@@ -131,7 +131,7 @@ ele.css("height", ele.outerHeight())
 
 <p>Will make the h2 heading "Section 1" stick to the top of the page (css position: fixed) and will watch for when the footer element (the paragraph with id = section1footer) comes within 20 pixels of the bottom of the h2 element at which point, the header is scrolled up with the normal flow of the page.</p>
 
-<p>Note that in the example above I set the height of the div.section-title-container. This was just for demonstrations purposes and could have been achieved via other methods, The reason for setting the height of the element around the header is that once the header is fixed on the page, it is removed from the normal flow of the document. By setting the surrounding element's height, the document structure should be maintained when the header is moved to position: position.</p>
+<p>In the example above the height of the div.section-title-container is set prior to calling stickOnScroll(). This was just for demonstrations purposes and could have been achieved via other methods (ie. css). The reason for setting the height of the element around the header is that once the header is fixed on the page, it is removed from the normal flow of the document. By setting the surrounding element's height, the document structure should be maintained when the header is moved to position: position.</p>
 
 <p>This plugin will manipulate the following css properties on the element that will be fixed:</p>
 
@@ -140,26 +140,51 @@ ele.css("height", ele.outerHeight())
 <li>position</li>
 </ul>
 
+<p><em><strong>Note: Internet Explorer Behaviour</strong> When used on a viewport that is not the Window object, the fixed element will be animated (gradual slide down) in Internet Explorer in order to avoid the flashing/flickering affect.</em></p>
+
 <h2>Options</h2>
 
 <ul>
-<li><strong>topOffset</strong>       :   <em>Integer. Optional. Default=0</em> <br />
-                        The number of pixels from the top of the viewport (window) before the element triggers to fixed. <strong>Note:</strong> This value must be an integer. </li>
-<li><strong>bottomOffset</strong>    :   <em>Integer. Optional. Default=0</em> <br />
-                        The number of pixels between the bottom of the fixed element and the top of the footer before the fixed element scrolls back up the page.</li>
-<li><strong>footerElement</strong>   :   <em>HTMLElement|jQuery|selector. Optional. Default=null</em> <br />
-                        The footer element to be used for triggering the fixed element to scroll back up.</li>
-<li><strong>stickClass</strong>      :   *String. Optional. Default="stickOnScroll-on" * <br />
-                        The class name that will be added to the fixed element when it is fixed on the page.</li>
+<li><p><strong>topOffset</strong>       :   <em>Integer. Optional. Default=0</em> <br />
+                        The number of pixels from the top of the viewport (window) before the element triggers to fixed. <strong>Note:</strong> This value must be an integer. </p></li>
+<li><p><strong>bottomOffset</strong>    :   <em>Integer. Optional. Default=0</em> <br />
+                        The number of pixels between the bottom of the fixed element and the top of the footer before the fixed element scrolls back up the page.</p></li>
+<li><p><strong>footerElement</strong>   :   <em>HTMLElement|jQuery|selector. Optional. Default=null</em> <br />
+                        The footer element to be used for triggering the fixed element to scroll back up.</p></li>
+<li><p><strong>stickClass</strong>      :   *String. Optional. Default="stickOnScroll-on" * <br />
+                        The class name that will be added to the fixed element when it is fixed on the page.</p></li>
+<li><p><strong>viewport</strong>        :   *HTMLElement|jQuery|selector. Optional. Default=window * <br />
+                        The viewport that will be used to watch for scrolling. Defaul is the browser window. Set this to specific elements if sticking elements within a fixed height element with overflow set to auto or scroll. </p></li>
 </ul>
+
+<h2>Examples</h2>
+
+<h4>Example 1:</h4>
+
+<p>The following example will apply stickOnScroll to a header element inside a scrolling area. </p>
+
+<pre><code>&lt;div id="info" style="height: 200px; overflow: auto"&gt;
+    &lt;div style="height: 2000px;"&gt;
+        &lt;div style="height: 2em;"&gt;
+            &lt;div id="header" style="background: green;"&gt;Page Header&lt;/div&gt;
+        &lt;/div&gt;
+        Long area with content.
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>Code:</p>
+
+<pre><code>$("div.header").stickOnScroll({
+    viewport: $("div.info")
+});
+</code></pre>
 
 <h2>License</h2>
 
 <p>Release under the terms of the <a href="http://www.opensource.org/licenses/mit-license.php">MIT</a> License.</p>
 
 <p><em>Copyright 2012 <a href="http://paultavares.wordpress.com/">Paul Tavares</a>. All rights reserved.</em></p>
-
-
 
 <!---------------------------------------------------->
 
