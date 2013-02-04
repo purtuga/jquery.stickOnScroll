@@ -67,7 +67,7 @@
                 // and set the maxTop before we stick the element
                 // to be it's "normal" topPosition minus offset
                 scrollTop   = o.viewport.scrollTop();
-                maxTop      = (o.eleTop - o.topOffset);
+                maxTop      = (o.eleTop - o.topOffset) + o.eleTopMargin;
               
                 // TODO: What about calculating top values with margin's set?
                 // pt.params.footer.css('marginTop').replace(/auto/, 0)
@@ -86,14 +86,14 @@
                     
                     cssPosition = {
                             position:   "fixed",
-                            top:        o.topOffset
+                            top:        ( o.topOffset - o.eleTopMargin )
                         };
                     
                     if (o.isWindow === false) {
                         
                         cssPosition = {
                             position:   "absolute",
-                            top:        (scrollTop + o.topOffset)
+                            top:        ( ( scrollTop + o.topOffset ) -  o.eleTopMargin )
                         };
                     
                     }

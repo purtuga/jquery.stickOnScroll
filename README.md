@@ -108,6 +108,7 @@ Change Log
 ### Version 1.2, <<< date TBD >>>
 
 -   [Feature] New input option *hasStickOnScroll*
+-   [Bug] margin-top value of stickOnScroll elements is now used when fixing an element on the page or container (no more transparent space at the top of the element when fixed).
 
 
 ### Version 1.1, 10/27/2012
