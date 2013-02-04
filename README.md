@@ -37,7 +37,7 @@ And the following javascript code:
 
 Will make the h2 heading "Section 1" stick to the top of the page (css position: fixed) and will watch for when the footer element (the paragraph with id = section1footer) comes within 20 pixels of the bottom of the h2 element at which point, the header is scrolled up with the normal flow of the page.
 
-In the example above the height of the div.section-title-container is set prior to calling stickOnScroll(). This was just for demonstrations purposes and could have been achieved via other methods (ie. css). The reason for setting the height of the element around the header is that once the header is fixed on the page, it is removed from the normal flow of the document. By setting the surrounding element's height, the document structure should be maintained when the header is moved to position: position.
+In the example above the height of the div.section-title-container is set prior to calling stickOnScroll(). This was just for demonstrations purposes and could have been achieved via other methods (ie. css). The reason for setting the height of the element around the header is that once the header is fixed on the page, it is removed from the normal flow of the document. By setting the surrounding element's height, the document structure should be maintained when the header is moved to position: position. **NOTE** Since this is such a common need, a new input option (_setParentOnStick_) has been added, wich will automatically set the height of the parent element when set to true. 
 
 This plugin will manipulate the following css properties on the element that will be fixed:
 
@@ -62,8 +62,38 @@ Options
 -   **footerElement**   :   *HTMLElement|jQuery|selector. Optional. Default=null* <br />
                             The footer element to be used for triggering the fixed element to scroll back up.
 
--   **stickClass**      :   *String. Optional. Default="stickOnScroll-on" * <br />
+-   **stickClass**      :   *String. Optional. Default="stickOnScroll-on"* <br />
                             The class name that will be added to the fixed element when it is fixed on the page.
+
+-   **viewport**        :   *HTMLElement|jQuery|selector. Optional. Default=window* <br />
+                            The viewport that will be used to watch for scrolling. Default is the browser window. Set this to specific elements if sticking elements within a fixed height element with overflow set to auto or scroll and position set to either relative, absolute or fixed. (**Note** for html element, these setting are important). 
+
+-   **setParentOnStick**    :   *Boolean. Optional. Default=false* <br />
+                            If true, the parent element of the node that will be Stick On Scroll will have it's css height attribute set to the height of the node. Use this option when wanting the page flow to maintain the original height of the element when Stick on Scroll is applied.  This option will manipulate only the css height attibute of the parent element and only when the node is "stuck". When not Stuck, the css height is set to "" (empty). 
+
+
+
+Examples
+--------
+
+#### Example 1:
+
+The following example will apply stickOnScroll to a header element inside a scrolling area. Note the css properties set on the viewport element (id=info). 
+
+    <div id="info" style="height: 200px; overflow: auto; position: relative;">
+        <div id="info_body" style="height: 2000px;">
+            <div style="height: 2em;">
+                <div id="header" style="background: green;">Page Header</div>
+            </div>
+            Long area with content.
+        </div>
+    </div>
+
+Code:
+
+    $("div.header").stickOnScroll({
+        viewport: $("div.info")
+    });
 
 
 License
@@ -71,6 +101,21 @@ License
 
 Release under the terms of the [MIT](http://www.opensource.org/licenses/mit-license.php) License.
 
+
+Change Log
+----------
+
+### Version 1.2, <<< date TBD >>>
+
+-   [Feature] New input option *hasStickOnScroll*
+
+
+### Version 1.1, 10/27/2012
+
+-   Initial public version
+
+
+______________
 
 *Copyright 2012 [Paul Tavares](http://paultavares.wordpress.com/). All rights reserved.*
 
