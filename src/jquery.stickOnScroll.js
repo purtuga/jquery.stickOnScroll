@@ -62,12 +62,13 @@
                 }
             }
             if (o !== null) {
-                
+
                 // Get the scroll top position on the view port
-                // and set the maxTop before we stick the element
-                // to be it's "normal" topPosition minus offset
                 scrollTop   = o.viewport.scrollTop();
-                maxTop      = (o.eleTop - o.topOffset) + o.eleTopMargin;
+                
+                // set the maxTop before we stick the element
+                // to be it's "normal" topPosition minus offset
+                maxTop      = o.getEleMaxTop();
               
                 // TODO: What about calculating top values with margin's set?
                 // pt.params.footer.css('marginTop').replace(/auto/, 0)
@@ -99,7 +100,6 @@
                     }
                     
                     o.isStick = true;
-                    
                     
                     // ---> HAS FOOTER ELEMENT?
                     // check to see if it we're reaching the footer element,
@@ -193,6 +193,17 @@
                     }
                 }
                 
+                // Recalculate the original top position of the element...
+                // this could have changed from when element was initialized
+                // - ex. elements were inserted into DOM. We re-calculate only
+                // if the we're at the very top of the viewport, so that we can
+                // get a good position.
+                if (scrollTop === 0) {
+                    
+                    o.setEleTop();
+                    
+                }
+                
             }// is element setup null?
             
         }//end: for()
@@ -237,36 +248,123 @@
                             stickClass:         'stickOnScroll-on',
                             setParentOnStick:   false
                         }, options),
-                viewportKey;
+                viewportKey,
+                setIntID,
+                setIntTries = 1800; // 1800 tries * 100 milliseconds = 3 minutes
             
             o.isStick       = false;
             o.ele           = $(this).addClass("hasStickOnScroll");
             o.eleParent     = o.ele.parent();
             o.viewport      = $(o.viewport);
-            o.eleTop        = o.ele.offset().top;
+            o.eleTop        = 0;
             o.eleTopMargin  = parseFloat( o.ele.css("margin-top") );
             o.footerElement = $(o.footerElement);
             o.isWindow      = true;
             
-            if (!$.isWindow(o.viewport[0])) {
-                o.isWindow  = false;
-                o.eleTop    = o.ele.position().top;
-            }
-            
-            viewportKey = o.viewport.prop("stickOnScroll");
-            
-            // If this viewport is not yet defined, set it up now 
-            if (!viewportKey) {
+            /**
+             * Retrieves the element's top position based on the
+             * type of viewport.
+             * 
+             * @return {Integer} 
+             */
+            o.setEleTop = function(){
                 
-                viewportKey = "stickOnScroll" + String(Math.random()).replace(/\D/g,""); 
-                o.viewport.prop("stickOnScroll", viewportKey);
-                viewports[viewportKey] = [];
-                o.viewport.on("scroll", processElements);
-
+                if (o.isStick === false) {
+                    
+                    if (o.isWindow) {
+                        
+                        o.eleTop = o.ele.position().top;
+                        
+                    } else {
+                        
+                        o.eleTop = o.ele.offset().top;
+                        
+                    }
+                    
+                }
+                
+            }; //end: o.getEleTop()
+            
+            /**
+             * Get's the MAX top position for the element before it
+             * is made sticky. In some cases the max could be less 
+             * than the original position of the element, which means
+             * the element would always be sticky... in these instances
+             * the max top will be set to the element's top position.
+             * 
+             * @return {Integer}
+             */
+            o.getEleMaxTop = function() {
+                
+                var max = ( ( o.eleTop - o.topOffset ) + o.eleTopMargin );
+                
+                // if (max < o.eleTop) {
+//                     
+                    // max = o.eleTop;
+//                     
+                // }
+                
+                return max;
+                
+            }; //end: o.getEleMaxTop()
+            
+            if (!$.isWindow(o.viewport[0])) {
+                
+                o.isWindow  = false;
+                
             }
             
-            // Push this element's data to this view port's array
-            viewports[viewportKey].push(o);
+            function addThisEleToViewportList() {
+                
+                o.setEleTop();
+                
+                viewportKey = o.viewport.prop("stickOnScroll");
+                
+                // If this viewport is not yet defined, set it up now 
+                if (!viewportKey) {
+                    
+                    viewportKey = "stickOnScroll" + String(Math.random()).replace(/\D/g,""); 
+                    o.viewport.prop("stickOnScroll", viewportKey);
+                    viewports[viewportKey] = [];
+                    o.viewport.on("scroll", processElements);
+    
+                }
+                
+                // Push this element's data to this view port's array
+                viewports[viewportKey].push(o);
+                
+                // Trigger a scroll even
+                o.viewport.scroll();
+                
+            }
+            
+            // If Element is not visible, then we have to wait until it is
+            // in order to set it up. We need to obtain the top position of
+            // the element in order to make the right decision when it comes
+            // to making the element sticky.
+            if (o.ele.is(":visible")) {
+                
+                addThisEleToViewportList();
+                
+            } else {
+                
+                setIntID = setInterval(function(){
+                            
+                            if (o.ele.is(":visible") || !setIntTries) {
+                                
+                                clearInterval(setIntID);
+                                addThisEleToViewportList();
+                                
+                            }
+                            
+                            --setIntTries;
+                            
+                        },
+                        100);
+                
+            }
+            
+            return this;
             
         });//end: each()
         
