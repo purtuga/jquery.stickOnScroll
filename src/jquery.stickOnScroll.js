@@ -273,11 +273,11 @@
                     
                     if (o.isWindow) {
                         
-                        o.eleTop = o.ele.position().top;
+                        o.eleTop = o.ele.offset().top;
                         
                     } else {
                         
-                        o.eleTop = o.ele.offset().top;
+                        o.eleTop = o.ele.position().top;
                         
                     }
                     
