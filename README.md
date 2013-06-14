@@ -71,6 +71,8 @@ Options
 -   **setParentOnStick**    :   *Boolean. Optional. Default=false* <br />
                             If true, the parent element of the node that will be Stick On Scroll will have it's css height attribute set to the height of the node. Use this option when wanting the page flow to maintain the original height of the element when Stick on Scroll is applied.  This option will manipulate only the css height attibute of the parent element and only when the node is "stuck". When not Stuck, the css height is set to "" (empty). 
 
+-   **setWidthOnStick**    :   *Boolean. Optional. Default=false* <br />
+                            If true, the width of the element that will be made sticky is set so that it maintains the same width when its position is removed from the normal page flow (position:fixed). The width is then removed when the element returns to the normal page flow position. 
 
 
 Examples

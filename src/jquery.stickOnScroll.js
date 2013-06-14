@@ -150,6 +150,14 @@
                         o.eleParent.css("height", o.ele.outerHeight(true));
                     }
                     
+                    // If o.setWidthOnStick is true, then set the width on the
+                    // element that is about to be Sticky.
+                    if (o.setWidthOnStick === true) {
+                        
+                        o.ele.css("width", o.ele.css("width"));
+                        
+                    }
+                    
                     // Stick the element
                     if (isIE && o.isWindow === false) {
                         
@@ -190,6 +198,13 @@
                             
                         }
                         
+                        // Reset the element's width if o.setWidthOnStick is true
+                        if (o.setWidthOnStick === true) {
+                            
+                            o.ele.css("width", "");
+                            
+                        }
+                        
                     }
                 }
                 
@@ -227,6 +242,7 @@
      * @param {Object|HTMLElement|jQuery} [options.viewport=window]
      * @param {String} [options.stickClass="stickOnScroll-on"]
      * @param {Boolean} [options.setParentOnStick=false]
+     * @param {Boolean} [options.setWidthOnStick=false]
      * 
      * @return {jQuery} this
      * 
@@ -246,7 +262,8 @@
                             footerElement:      null,
                             viewport:           window,
                             stickClass:         'stickOnScroll-on',
-                            setParentOnStick:   false
+                            setParentOnStick:   false,
+                            setWidthOnStick:    false
                         }, options),
                 viewportKey,
                 setIntID,
