@@ -125,9 +125,11 @@ Release under the terms of the [MIT](http://www.opensource.org/licenses/mit-lice
 Change Log
 ----------
 
-### Version 1.2, <<< date TBD >>>
+### Version 1.2, Jun. 29, 2013
 
--   [Feature] New input option *hasStickOnScroll*
+-   [Feature] New input option *onStick* - Event triggered when the element is made sticky
+-   [Feature] New input option *onUnStick* - Event triggered when the element has its stickiness removed
+-   [Feature] New input option *setParentOnStick*
 -   [Bug] margin-top value of stickOnScroll elements is now used when fixing an element on the page or container (no more transparent space at the top of the element when fixed).
 
 
