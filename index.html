@@ -71,7 +71,7 @@
     <div class="wrapper">
       <header>
         <div>
-            <h1>Jquery.stickonscroll</h1>
+            <h1>jQuery.stickOnScroll</h1>
         </div>
         <p>A jQuery plugin for making elements fixed on the top of the page when scrolling and scrolling that item up when it a specified footer element gets &quot;close&quot;.</p>
         
@@ -89,14 +89,14 @@
         <p class="view"><a href="https://github.com/purtuga/jquery.stickOnScroll">View the Project on GitHub <small>purtuga/jquery.stickOnScroll</small></a></p>
 
         <ul>
-          <li><a href="https://github.com/purtuga/jquery.stickOnScroll/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/purtuga/jquery.stickOnScroll/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/purtuga/jquery.stickOnScroll/archive/v.1.2.zip"> Download <strong>v1.2</strong></a></li>
+          <li><a href="https://github.com/purtuga/jquery.stickOnScroll/tags"> Download <strong>Other</strong></a></li>
           <li><a href="https://github.com/purtuga/jquery.stickOnScroll">View On <strong>GitHub</strong></a></li>
         </ul>
       </header>
       <section id="content">
        
-<h1 id="h1title">jquery.stickOnScroll</h1>
+<h1 id="h1title">jQuery.stickOnScroll</h1>
 
 <!-- INCLUDE README.MD BELOW ------------------------------------------->
 
@@ -133,7 +133,7 @@ ele.css("height", ele.outerHeight())
 
 <p>Will make the h2 heading "Section 1" stick to the top of the page (css position: fixed) and will watch for when the footer element (the paragraph with id = section1footer) comes within 20 pixels of the bottom of the h2 element at which point, the header is scrolled up with the normal flow of the page.</p>
 
-<p>In the example above the height of the div.section-title-container is set prior to calling stickOnScroll(). This was just for demonstrations purposes and could have been achieved via other methods (ie. css). The reason for setting the height of the element around the header is that once the header is fixed on the page, it is removed from the normal flow of the document. By setting the surrounding element's height, the document structure should be maintained when the header is moved to position: position.</p>
+<p>In the example above the height of the div.section-title-container is set prior to calling stickOnScroll(). This was just for demonstrations purposes and could have been achieved via other methods (ie. css). The reason for setting the height of the element around the header is that once the header is fixed on the page, it is removed from the normal flow of the document. By setting the surrounding element's height, the document structure should be maintained when the header is moved to position: position. <strong>NOTE</strong> Since this is such a common need, a new input option (<em>setParentOnStick</em>) has been added, wich will automatically set the height of the parent element when set to true. </p>
 
 <p>This plugin will manipulate the following css properties on the element that will be fixed:</p>
 
@@ -153,20 +153,42 @@ ele.css("height", ele.outerHeight())
                         The number of pixels between the bottom of the fixed element and the top of the footer before the fixed element scrolls back up the page.</p></li>
 <li><p><strong>footerElement</strong>   :   <em>HTMLElement|jQuery|selector. Optional. Default=null</em> <br />
                         The footer element to be used for triggering the fixed element to scroll back up.</p></li>
-<li><p><strong>stickClass</strong>      :   *String. Optional. Default="stickOnScroll-on" * <br />
+<li><p><strong>stickClass</strong>      :   <em>String. Optional. Default="stickOnScroll-on"</em> <br />
                         The class name that will be added to the fixed element when it is fixed on the page.</p></li>
-<li><p><strong>viewport</strong>        :   *HTMLElement|jQuery|selector. Optional. Default=window * <br />
-                        The viewport that will be used to watch for scrolling. Defaul is the browser window. Set this to specific elements if sticking elements within a fixed height element with overflow set to auto or scroll. </p></li>
+<li><p><strong>viewport</strong>        :   <em>HTMLElement|jQuery|selector. Optional. Default=window</em> <br />
+                        The viewport that will be used to watch for scrolling. Default is the browser window. Set this to specific elements if sticking elements within a fixed height element with overflow set to auto or scroll and position set to either relative, absolute or fixed. (<strong>Note</strong> for html element, these setting are important). </p></li>
+<li><p><strong>setParentOnStick</strong>    :   <em>Boolean. Optional. Default=false</em> <br />
+                        If true, the parent element of the node that will be Stick On Scroll will have it's css height attribute set to the height of the node. Use this option when wanting the page flow to maintain the original height of the element when Stick on Scroll is applied.  This option will manipulate only the css height attibute of the parent element and only when the node is "stuck". When not Stuck, the css height is set to "" (empty). </p></li>
+<li><p><strong>setWidthOnStick</strong>    :   <em>Boolean. Optional. Default=false</em> <br />
+                        If true, the width of the element that will be made sticky is set so that it maintains the same width when its position is removed from the normal page flow (position:fixed). The width is then removed when the element returns to the normal page flow position. </p></li>
+<li><p><strong>onStick</strong>    :   <em>Function. Optional. Default=null</em> <br />
+A function to be called when the element becomes sticky on the page. Function will have a scope of element that was made sticky, which will also be provided as the first argument to the Function.</p>
+
+<p>Example:</p>
+
+<pre><code>onStick: function($ele){
+    // this = jQuery object of the sticky element
+}
+</code></pre></li>
+<li><p><strong>onUnStick</strong>    :   <em>Function. Optional. Default=null</em> <br />
+A function to be called when the element becomes un-sticky on the page. Function will have a scope of element whose stickiness was removed, which will also be provided as the first argument to the Function.</p>
+
+<p>Example:</p>
+
+<pre><code>onUnStick: function($ele){
+    // this = jQuery object of the sticky element
+}
+</code></pre></li>
 </ul>
 
 <h2>Examples</h2>
 
 <h4>Example 1:</h4>
 
-<p>The following example will apply stickOnScroll to a header element inside a scrolling area. </p>
+<p>The following example will apply stickOnScroll to a header element inside a scrolling area. Note the css properties set on the viewport element (id=info). </p>
 
-<pre><code>&lt;div id="info" style="height: 200px; overflow: auto"&gt;
-    &lt;div style="height: 2000px;"&gt;
+<pre><code>&lt;div id="info" style="height: 200px; overflow: auto; position: relative;"&gt;
+    &lt;div id="info_body" style="height: 2000px;"&gt;
         &lt;div style="height: 2em;"&gt;
             &lt;div id="header" style="background: green;"&gt;Page Header&lt;/div&gt;
         &lt;/div&gt;
@@ -186,7 +208,28 @@ ele.css("height", ele.outerHeight())
 
 <p>Release under the terms of the <a href="http://www.opensource.org/licenses/mit-license.php">MIT</a> License.</p>
 
+<h2>Change Log</h2>
+
+<h3>Version 1.2, Jun. 29, 2013</h3>
+
+<ul>
+<li>[Feature] New input option <em>onStick</em> - Event triggered when the element is made sticky</li>
+<li>[Feature] New input option <em>onUnStick</em> - Event triggered when the element has its stickiness removed</li>
+<li>[Feature] New input option <em>setParentOnStick</em></li>
+<li>[Bug] margin-top value of stickOnScroll elements is now used when fixing an element on the page or container (no more transparent space at the top of the element when fixed).</li>
+</ul>
+
+<h3>Version 1.1, 10/27/2012</h3>
+
+<ul>
+<li>Initial public version</li>
+</ul>
+
+<hr />
+
 <p><em>Copyright 2012 <a href="http://paultavares.wordpress.com/">Paul Tavares</a>. All rights reserved.</em></p>
+
+
 
 <!---------------------------------------------------->
 
@@ -200,11 +243,6 @@ ele.css("height", ele.outerHeight())
         </span>
 
     
-
-
-
-
-       
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/purtuga">purtuga</a></p>
