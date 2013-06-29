@@ -74,6 +74,24 @@ Options
 -   **setWidthOnStick**    :   *Boolean. Optional. Default=false* <br />
                             If true, the width of the element that will be made sticky is set so that it maintains the same width when its position is removed from the normal page flow (position:fixed). The width is then removed when the element returns to the normal page flow position. 
 
+-   **onStick**    :   *Function. Optional. Default=null* <br />
+    A function to be called when the element becomes sticky on the page. Function will have a scope of element that was made sticky, which will also be provided as the first argument to the Function.
+    
+    Example:
+    
+        onStick: function($ele){
+            // this = jQuery object of the sticky element
+        }
+    
+-   **onUnStick**    :   *Function. Optional. Default=null* <br />
+    A function to be called when the element becomes un-sticky on the page. Function will have a scope of element whose stickiness was removed, which will also be provided as the first argument to the Function.
+    
+    Example:
+    
+        onUnStick: function($ele){
+            // this = jQuery object of the sticky element
+        }
+    
 
 Examples
 --------
