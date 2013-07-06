@@ -68,7 +68,11 @@
     <body>
         <h1>Example Demo: Use of Headers with margin set</h1>
         
-        <p>Demostration of stick on scroll of elements that have a margin set. In those cases, the offset from the top of the page will use that margin value and thus the element will have blank distance from the top of the viewport.</p>
+        <p>Demostration of stick on scroll of elements that have a margin set. In those cases, the offset from the top of the page will use that margin value and thus the element will be positioned using the edge of it and not the content's edge.
+        </p>
+        <p>
+            In addition, although these examples have setParentOnStick set to True, that input paramter is forced to False when the parent element is the &lt;body&gt; tag.
+        </p>
         
         <h2 id="example1">H2 title with margin-top set</h2>
         
