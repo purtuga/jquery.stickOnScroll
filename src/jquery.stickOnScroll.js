@@ -224,11 +224,11 @@
                                 o.ele.css("width", "");
                                 
                             }
+
+                            o.wasStickCalled = false;
                             
                             // Execute the onUnStick if defined
                             if (o.isOnUnStickSet) {
-                                
-                                o.wasStickCalled = false;
                                 
                                 setTimeout(function(){
                                     
