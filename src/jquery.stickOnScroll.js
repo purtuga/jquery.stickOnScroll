@@ -87,7 +87,7 @@
                     // If the current scrollTop position plus the topOffset is greater
                     // than our maxTop value, then make element stick on the page.
                     // if ((scrollTop + o.topOffset) > maxTop) {
-                    if (    (o.isWindow === true && (scrollTop + o.topOffset) > maxTop)
+                    if (    (o.isWindow === true && scrollTop > maxTop)
                         ||  (o.isWindow === false && o.eleTop < scrollTop )
                     ){
                         
