@@ -128,7 +128,7 @@
       
         $("#clear").click(function(){
             
-            Main.$logCntr.empty();
+            Main.$log.empty();
             
         });
         
