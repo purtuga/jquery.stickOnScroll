@@ -86,10 +86,7 @@
         
                     // If the current scrollTop position plus the topOffset is greater
                     // than our maxTop value, then make element stick on the page.
-                    // if ((scrollTop + o.topOffset) > maxTop) {
-                    if (    (o.isWindow === true && scrollTop > maxTop)
-                        ||  (o.isWindow === false && o.eleTop < scrollTop )
-                    ){
+                    if (scrollTop > maxTop){
                         
                         cssPosition = {
                                 position:   "fixed",
@@ -153,7 +150,9 @@
                         // If o.setParentOnStick is true, then set the
                         // height to this node's parent.
                         if (o.setParentOnStick === true) {
-                            o.eleParent.css("height", o.ele.outerHeight(true));
+                            
+                            o.eleParent.css("height", o.eleParent.height());
+                            
                         }
                         
                         // If o.setWidthOnStick is true, then set the width on the
@@ -179,20 +178,26 @@
                                 .addClass(o.stickClass);
                                 
                         }
-                        
+                            
                         // If making element stick now, then trigger
                         // onStick callback if any
-                        if (o.isOnStickSet === true && o.wasStickCalled === false) {
-                            
+                        if (o.wasStickCalled === false) {
+                                
                             o.wasStickCalled = true;
                             
                             setTimeout(function(){
                                 
-                                o.onStick.call(o.ele, o.ele);
+                                if (o.isOnStickSet === true) {
+                                    
+                                    o.onStick.call(o.ele, o.ele);
+                                    
+                                }
+                                
+                                o.ele.trigger("stickOnScroll:onStick", [o.ele]);
                                 
                             }, 20);
                             
-                        }
+                        }   
                         
                     // ELSE, If the scrollTop of the view port plus the topOffset is
                     // less than the maxTop, then throw the element back into the 
@@ -227,16 +232,18 @@
 
                             o.wasStickCalled = false;
                             
-                            // Execute the onUnStick if defined
-                            if (o.isOnUnStickSet) {
+                            setTimeout(function(){
                                 
-                                setTimeout(function(){
+                                // Execute the onUnStick if defined
+                                if (o.isOnUnStickSet) {
                                     
                                     o.onUnStick.call( o.ele, o.ele );
                                     
-                                }, 20);
+                                }
                                 
-                            }
+                                o.ele.trigger("stickOnScroll:onUnStick", [o.ele]);
+                                
+                            }, 20);
                             
                         }
                     }
@@ -355,7 +362,13 @@
              */
             o.getEleMaxTop = function() {
                 
-                var max = ( ( o.eleTop - o.topOffset ) + o.eleTopMargin );
+                var max = ( ( o.eleTop - o.topOffset ));
+                
+                if (!o.isWindow) {
+                    
+                    max = (max + o.eleTopMargin);
+                    
+                }
                 
                 // if (max < o.eleTop) {
 //                     
@@ -366,6 +379,15 @@
                 return max;
                 
             }; //end: o.getEleMaxTop()
+            
+            // If setParentOnStick is true, and the parent element
+            // is the <body>, then set setParentOnStick to false.
+            if (o.setParentOnStick === true && o.eleParent.is("body")){
+                
+                o.setParentOnStick = false;
+                
+            }
+            
             
             if (!$.isWindow(o.viewport[0])) {
                 
