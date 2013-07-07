@@ -31,13 +31,16 @@ And the following javascript code:
         .find("h2")
             .stickOnScroll({
                 footerElement:  $("#section1footer"),
-                bootomOffset:   20
+                bootomOffset:   20,
+                setParentOnStick: true
             });
     });
 
 Will make the h2 heading "Section 1" stick to the top of the page (css position: fixed) and will watch for when the footer element (the paragraph with id = section1footer) comes within 20 pixels of the bottom of the h2 element at which point, the header is scrolled up with the normal flow of the page.
 
-In the example above the height of the div.section-title-container is set prior to calling stickOnScroll(). This was just for demonstrations purposes and could have been achieved via other methods (ie. css). The reason for setting the height of the element around the header is that once the header is fixed on the page, it is removed from the normal flow of the document. By setting the surrounding element's height, the document structure should be maintained when the header is moved to position: position. **NOTE** Since this is such a common need, a new input option (_setParentOnStick_) has been added, wich will automatically set the height of the parent element when set to true. 
+In the example above the height of the div.section-title-container is set prior to calling stickOnScroll(). This was just for demonstrations purposes and could have been achieved via other methods (ie. css). The reason for setting the height of the element around the header is that once the header is fixed on the page, it is removed from the normal flow of the document. By setting the surrounding element's height, the document structure should be maintained when the header is moved to position: position.
+
+**NOTE** Since this is such a common need, a new input option, _setParentOnStick_, has been added, wich will automatically set the height of the parent element when set to true. 
 
 This plugin will manipulate the following css properties on the element that will be fixed:
 
@@ -52,27 +55,26 @@ _**Note: Internet Explorer Behaviour** When used on a viewport that is not the W
 Options
 -------
 
-
 -   **topOffset**       :   *Integer. Optional. Default=0* <br />
-                            The number of pixels from the top of the viewport (window) before the element triggers to fixed. **Note:** This value must be an integer. 
+    The number of pixels from the top of the viewport (window) before the element triggers to fixed. **Note:** This value must be an integer. 
 
 -   **bottomOffset**    :   *Integer. Optional. Default=0* <br />
-                            The number of pixels between the bottom of the fixed element and the top of the footer before the fixed element scrolls back up the page.
+    The number of pixels between the bottom of the fixed element and the top of the footer before the fixed element scrolls back up the page.
 
 -   **footerElement**   :   *HTMLElement|jQuery|selector. Optional. Default=null* <br />
-                            The footer element to be used for triggering the fixed element to scroll back up.
+    The footer element to be used for triggering the fixed element to scroll back up.
 
 -   **stickClass**      :   *String. Optional. Default="stickOnScroll-on"* <br />
-                            The class name that will be added to the fixed element when it is fixed on the page.
+    The class name that will be added to the fixed element when it is fixed on the page.
 
 -   **viewport**        :   *HTMLElement|jQuery|selector. Optional. Default=window* <br />
-                            The viewport that will be used to watch for scrolling. Default is the browser window. Set this to specific elements if sticking elements within a fixed height element with overflow set to auto or scroll and position set to either relative, absolute or fixed. (**Note** for html element, these setting are important). 
+    The viewport that will be used to watch for scrolling. Default is the browser window. Set this to specific elements if sticking elements within a fixed height element with overflow set to auto or scroll and position set to either relative, absolute or fixed. **Note** for html element, these setting are important. 
 
 -   **setParentOnStick**    :   *Boolean. Optional. Default=false* <br />
-                            If true, the parent element of the node that will be Stick On Scroll will have it's css height attribute set to the height of the node. Use this option when wanting the page flow to maintain the original height of the element when Stick on Scroll is applied.  This option will manipulate only the css height attibute of the parent element and only when the node is "stuck". When not Stuck, the css height is set to "" (empty). 
+    If true, the parent element of the node that will be Stick On Scroll will have it's css height attribute set to the height of the node. Use this option when wanting the page flow to maintain the original height of the element when Stick on Scroll is applied.  This option will manipulate only the css height attibute of the parent element and only when the node is "stuck". When not Stuck, the css height is set to "" (empty). 
 
 -   **setWidthOnStick**    :   *Boolean. Optional. Default=false* <br />
-                            If true, the width of the element that will be made sticky is set so that it maintains the same width when its position is removed from the normal page flow (position:fixed). The width is then removed when the element returns to the normal page flow position. 
+    If true, the width of the element that will be made sticky is set so that it maintains the same width when its position is removed from the normal page flow (position:fixed). The width is then removed when the element returns to the normal page flow position. 
 
 -   **onStick**    :   *Function. Optional. Default=null* <br />
     A function to be called when the element becomes sticky on the page. Function will have a scope of element that was made sticky, which will also be provided as the first argument to the Function.
@@ -92,6 +94,29 @@ Options
             // this = jQuery object of the sticky element
         }
     
+Events
+------
+
+The following events are triggered by this plugin:
+
+-   **stickOnScroll:onStick**<br>
+    Triggered when element is made sticky on the page.
+    
+    Usage:
+    
+        $("body").on("stickOnScroll:onStick", function(ev, $stickyEle){
+            // ev.target = element that was made sticky
+        });
+    
+    
+-   **stickOnScroll:onUnStick**<br>
+    Triggered when the element's stickyness is removed and placed back into the normal flow of the page.
+    
+    Usage:
+    
+        $("body").on("stickOnScroll:onUnStick", function(ev, $stickyEle){
+            // ev.target = element that had Sticky removed
+        });
 
 Examples
 --------
@@ -112,7 +137,8 @@ The following example will apply stickOnScroll to a header element inside a scro
 Code:
 
     $("div.header").stickOnScroll({
-        viewport: $("div.info")
+        viewport: $("div.info"),
+        setParentOnStick: true
     });
 
 
@@ -124,6 +150,13 @@ Release under the terms of the [MIT](http://www.opensource.org/licenses/mit-lice
 
 Change Log
 ----------
+
+### Version 1.3, ?????????????
+
+-   [Bug] Fix to elements getting sticky too early when viewport was window. Merge of contribution by [Clayton](https://github.com/theshortcut) - https://github.com/theshortcut/jquery.stickOnScroll/commit/f97c2aa2be7dd1f3c00a473bf4cdf702934a871d
+-   [bug] Fix to elements getting sticky too early when viewport is not window.
+-   [Feature] onStick and onUnStick now trigger events up the DOM. Event names are _stickOnScroll:onStick_ and _stickOnScroll:onUnStick_.
+-   [Development] Enhancements to example pages, including a new development panel to assist in debuging (triggered with ALT+Q).
 
 ### Version 1.2, Jun. 29, 2013
 
