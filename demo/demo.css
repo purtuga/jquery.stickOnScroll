@@ -1,0 +1,33 @@
+/**
+ * Style sheet for demo pages
+ */
+
+body {
+    height: 10000px;
+    padding: 0;
+    margin: 0;
+    font-size: 14pt;
+    line-height: 2em;
+}
+
+.stickOnScroll-on {
+    color: red;
+    z-index: 10;
+}
+
+
+
+/** For Development */
+.dev-info, #out {
+    font-family: "Courier New";
+    font-size: .7em;
+    font-weight: normal;
+}
+#out {
+    font-size: 1em;
+}
+#out > div {
+    border-bottom: 1px dotted gray;
+}
+
+

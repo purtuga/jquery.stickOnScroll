@@ -6,10 +6,14 @@
         <title>jquery.stickOnScroll</title>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
         <script type="text/javascript" src="../src/jquery.stickOnScroll.js"></script>
+        <link href="demo.css" rel="stylesheet" type="text/css" />
         <script>
             $(function() {
                 
-                $("#menu").stickOnScroll();
+                $("#menu").stickOnScroll({
+                    setParentOnStick:   true,
+                    setWidthOnStick:    true
+                });
                 
                 $("#left")
                     .stickOnScroll({
@@ -28,98 +32,89 @@
                 
                 /************************ LEFT PANEL EXAMPLE **********/
                 $("#section1")
-                    .parent()
-                        .css("height", $("#section1").outerHeight())
-                        .end()
-                    .css("background-color", "red")
+                    .css("background-color", "lightgrey")
                     .stickOnScroll({
-                        topOffset:      0,
-                        bottomOffset:   5,
-                        footerElement:  $("#section1footer"),
-                        viewport:       $("#left")
+                        topOffset:          0,
+                        bottomOffset:       5,
+                        footerElement:      $("#section1footer"),
+                        viewport:           $("#left"),
+                        setParentOnStick:   true,
+                        setWidthOnStick:    true
                     });
                 
                 $("#section2")
-                    .parent()
-                        .css("height", $("#section2").outerHeight())
-                        .end()
                     .css("background-color", "green")
                     .stickOnScroll({
-                        footerElement:  $("#section2footer"),
-                        bottomOffset:   0,
-                        viewport:       $("#left")
+                        footerElement:      $("#section2footer"),
+                        bottomOffset:       0,
+                        viewport:           $("#left"),
+                        setParentOnStick:   true,
+                        setWidthOnStick:    true
                     });
                  
                 $("#section3")
-                        .parent()
-                            .css("height", $("#section4").outerHeight())
-                            .end()
-                        .css("background-color", "blue")
-                        .stickOnScroll({
-                            viewport:   $("#left"),
-                            footerElement: $("#section4").parent()
-                        });
+                    .css("background-color", "blue")
+                    .stickOnScroll({
+                        viewport:           $("#left"),
+                        footerElement:      $("#section4").parent(),
+                        setParentOnStick:   true,
+                        setWidthOnStick:    true
+                    });
                 $("#section4")
-                        .parent()
-                            .css("height", $("#section4").outerHeight())
-                            .end()
                         .css("background-color", "purple")
                         .stickOnScroll({
-                            viewport:   $("#left"),
-                            footerElement: $("#section5").parent()
+                            viewport:           $("#left"),
+                            footerElement:      $("#section5").parent(),
+                            setParentOnStick:   true,
+                            setWidthOnStick:    true
                         });
                 $("#section5")
-                        .parent()
-                            .css("height", $("#section5").outerHeight())
-                            .end()
-                        .css("background-color", "teal")
-                        .stickOnScroll({
-                            viewport:   $("#left")
-                        });
+                    .css("background-color", "teal")
+                    .stickOnScroll({
+                        viewport:           $("#left"),
+                        setParentOnStick:   true,
+                        setWidthOnStick:    true
+                    });
                         
                         
                 /************************ RIGHT PANEL EXAMPLE **********/
                 $("#section6")
-                        .parent()
-                            .css("height", $("#section6").outerHeight())
-                            .end()
-                        .css("background-color", "brown")
-                        .stickOnScroll({
-                            topOffset:      $("#menu").outerHeight(),
-                            footerElement:  $("#section7").parent(),
-                            bottomOffset:   $("#menu").outerHeight()
-                        });
+                    .css("background-color", "brown")
+                    .stickOnScroll({
+                        topOffset:          $("#menu").outerHeight(),
+                        footerElement:      $("#section7").parent(),
+                        bottomOffset:       $("#menu").outerHeight(),
+                        setParentOnStick:   true,
+                        setWidthOnStick:    true
+                    });
                 $("#section7")
-                        .parent()
-                            .css("height", $("#section7").outerHeight())
-                            .end()
-                        .css("background-color", "yellow")
-                        .stickOnScroll({
-                            topOffset:      $("#menu").outerHeight(),
-                            footerElement:  $("#section8").parent(),
-                            bottomOffset:   $("#menu").outerHeight()
-                        });
+                    .css("background-color", "yellow")
+                    .stickOnScroll({
+                        topOffset:          $("#menu").outerHeight(),
+                        footerElement:      $("#section8").parent(),
+                        bottomOffset:       $("#menu").outerHeight(),
+                        setParentOnStick:   true,
+                        setWidthOnStick:    true
+                    });
                 $("#section8")
-                        .parent()
-                            .css("height", $("#section8").outerHeight())
-                            .end()
-                        .css("background-color", "purple")
-                        .stickOnScroll({
-                            topOffset:      $("#menu").outerHeight(),
-                            footerElement:  $("#section9").parent(),
-                            bottomOffset:   $("#menu").outerHeight()
-                        });
+                    .css("background-color", "purple")
+                    .stickOnScroll({
+                        topOffset:          $("#menu").outerHeight(),
+                        footerElement:      $("#section9").parent(),
+                        bottomOffset:       $("#menu").outerHeight(),
+                        setParentOnStick:   true,
+                        setWidthOnStick:    true
+                    });
                 
                 $("#section9")
-                        .parent()
-                            .css("height", $("#section9").outerHeight())
-                            .end()
-                        .css("background-color", "green")
-                        .stickOnScroll({
-                            topOffset:      $("#menu").outerHeight(),
-                            footerElement:  $("#bottom"),
-                            bottomOffset:   100 
-                        });
+                    .css("background-color", "green")
+                    .stickOnScroll({
+                        topOffset:          $("#menu").outerHeight(),
+                        footerElement:      $("#bottom"),
+                        bottomOffset:       100 ,
+                        setParentOnStick:   true,
+                        setWidthOnStick:    true
+                    });
                
             });
         </script>
@@ -132,7 +127,7 @@
                 line-height: 2em;
             }
             #menu {
-                z-index: 10;
+                z-index: 100;
                 background-color: yellow;
                 width: 100%;
             }
@@ -166,7 +161,6 @@
             
             div.section-header {
                 background-color: grey;
-                width: 100%;
                 padding: .5em .5em;
                 font-size: 2em;
                 font-weight: bold;
@@ -184,21 +178,25 @@
            This page contains several examples of this plugin in action.  All colored items on the page are "stick" when scrolled... either to the window or to the scrolling element (the Left area below). 
         </p>
         <div>
-            <div id="menu">
-                <a href="#">Link 1</a> |
-                <a href="#">Link 1</a> |
-                <a href="#">Link 1</a> | 
-                <a href="#">Link 1</a> |
+            <div id="menu" data-stickyType="window">
+                <a href="example-01.html">Example 1</a> |
+                <a href="example-02.html">Example 2</a> |
+                <a href="example-03.html">Example 3</a> | 
+                <a href="example-04.html">Example 4</a> |
             </div>
         </div>
+        <p>
+            Bacon ipsum dolor sit amet pig pork loin ground round sirloin chuck tongue drumstick.  Filet mignon meatball prosciutto turducken pig chuck.  Brisket sirloin meatball, leberkas turducken kielbasa bresaola jerky tenderloin drumstick cow chicken andouille beef ribs short ribs.  Pastrami fatback tongue chicken tail.  Jowl brisket turducken hamburger.
+        </p>
+        <hr/>
         <div id="body_container">
-            <div id="left">
+            <div id="left" class="isViewport">
                 <p>
                     Bacon ipsum dolor sit amet pig pork loin ground round sirloin chuck tongue drumstick.  Filet mignon meatball prosciutto turducken pig chuck.  Brisket sirloin meatball, leberkas turducken kielbasa bresaola jerky tenderloin drumstick cow chicken andouille beef ribs short ribs.  Pastrami fatback tongue chicken tail.  Jowl brisket turducken hamburger.
                 </p>
                 
                 <div>
-                    <div id="section1" class="section-header" data-stickonscroll="section1">
+                    <div id="section1" class="section-header" data-stickonscroll="section1" data-stickyType="element">
                         #Section 1
                     </div>
                 </div>
@@ -221,7 +219,7 @@
                 
                 
                 <div>
-                    <div id="section2" class="section-header" data-stickonscroll="section2">
+                    <div id="section2" class="section-header" data-stickonscroll="section2" data-stickyType="element">
                         #Section 2
                     </div>  
                 </div>
@@ -242,7 +240,7 @@
                 </div>
     
                 <div>
-                    <div id="section3" class="section-header" data-stickonscroll="section3">
+                    <div id="section3" class="section-header" data-stickonscroll="section3" data-stickyType="element">
                         #Section 3
                     </div>
                 </div>
@@ -260,7 +258,7 @@
                 </p>
                 
                 <div>
-                    <div id="section4" class="section-header" data-stickonscroll="section4">
+                    <div id="section4" class="section-header" data-stickonscroll="section4" data-stickyType="element">
                         #Section 4
                     </div>
                 </div>
@@ -278,7 +276,7 @@
                 </p>
                 
                 <div>
-                    <div id="section5" class="section-header" data-stickonscroll="section5">
+                    <div id="section5" class="section-header" data-stickonscroll="section5" data-stickyType="element">
                         #Section 5
                     </div>
                 </div>
@@ -319,7 +317,7 @@
                 
                 
                 <div>
-                    <div id="section6" class="section-header" data-stickonscroll="section6">
+                    <div id="section6" class="section-header" data-stickonscroll="section6" data-stickyType="window">
                         #Section 6
                     </div>
                 </div>
@@ -356,7 +354,7 @@
                         <strong>This section (7) is inside a 'position:relative' area.</strong>
                     </p>
                     <div>
-                        <div id="section7" class="section-header" data-stickonscroll="section7">
+                        <div id="section7" class="section-header" data-stickonscroll="section7" data-stickyType="window">
                             #Section 7
                         </div>
                     </div>
@@ -380,7 +378,7 @@
                 
                 
                 <div>
-                    <div id="section8" class="section-header" data-stickonscroll="section8">
+                    <div id="section8" class="section-header" data-stickonscroll="section8" data-stickyType="window">
                         #Section 8
                     </div>
                 </div>
@@ -408,7 +406,7 @@
                 
                 
                 <div>
-                    <div id="section9" class="section-header" data-stickonscroll="section9">
+                    <div id="section9" class="section-header" data-stickonscroll="section9" data-stickyType="window">
                         #Section 9
                     </div>
                 </div>
@@ -439,6 +437,9 @@
         <p>
             Sirloin salami chuck, bresaola beef ribs jerky spare ribs meatloaf frankfurter beef.  Drumstick pork belly turkey cow.  Sausage ball tip brisket bresaola, venison swine tail ribeye cow beef ribs sirloin meatball pork chop pork belly.  Turducken tri-tip short loin, beef ribs fatback andouille jowl meatball doner jerky pig ball tip shank meatloaf.  Ribeye short loin meatloaf pastrami, hamburger sausage pork belly.  Venison flank sirloin pork doner kielbasa andouille strip steak ribeye spare ribs ham.  Ribeye capicola strip steak boudin fatback bresaola, ground round hamburger tri-tip.
         </p>
+        
+        <script type="text/javascript" src="dev.debug.js"></script>
+        
         
     </body>
 </html>
