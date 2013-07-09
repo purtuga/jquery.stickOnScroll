@@ -202,7 +202,7 @@
                     // ELSE, If the scrollTop of the view port plus the topOffset is
                     // less than the maxTop, then throw the element back into the 
                     // page normal flow                    
-                    } else if ((scrollTop + o.topOffset) <= maxTop) {
+                    } else if (scrollTop <= maxTop) {
                         
                         if (o.isStick) {
                             
