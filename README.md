@@ -105,7 +105,7 @@ The following events are triggered by this plugin:
     Usage:
     
         $("body").on("stickOnScroll:onStick", function(ev, $stickyEle){
-            // ev.target = element that was made sticky
+            // ev.target = element that was made sticky - same as $stickyEle
         });
     
     
@@ -115,7 +115,7 @@ The following events are triggered by this plugin:
     Usage:
     
         $("body").on("stickOnScroll:onUnStick", function(ev, $stickyEle){
-            // ev.target = element that had Sticky removed
+            // ev.target = element that had Sticky removed - same as $stickyEle
         });
 
 Examples
@@ -153,6 +153,7 @@ Change Log
 
 ### Version 1.3, ?????????????
 
+-   [Bug] Fix to elements flickering when footerElement is defined and page is scrolling back up. Merge of contribution by [Clayton](https://github.com/theshortcut) - https://github.com/purtuga/jquery.stickOnScroll/pull/2/files 
 -   [Bug] Fix to elements getting sticky too early when viewport was window. Merge of contribution by [Clayton](https://github.com/theshortcut) - https://github.com/theshortcut/jquery.stickOnScroll/commit/f97c2aa2be7dd1f3c00a473bf4cdf702934a871d
 -   [bug] Fix to elements getting sticky too early when viewport is not window.
 -   [Feature] onStick and onUnStick now trigger events up the DOM. Event names are _stickOnScroll:onStick_ and _stickOnScroll:onUnStick_.
