@@ -151,7 +151,7 @@ Release under the terms of the [MIT](http://www.opensource.org/licenses/mit-lice
 Change Log
 ----------
 
-### Version 1.3, ?????????????
+### Version 1.3, July 9, 2013
 
 -   [Bug] Fix to elements flickering when footerElement is defined and page is scrolling back up. Merge of contribution by [Clayton](https://github.com/theshortcut) - https://github.com/purtuga/jquery.stickOnScroll/pull/2/files 
 -   [Bug] Fix to elements getting sticky too early when viewport was window. Merge of contribution by [Clayton](https://github.com/theshortcut) - https://github.com/theshortcut/jquery.stickOnScroll/commit/f97c2aa2be7dd1f3c00a473bf4cdf702934a871d
