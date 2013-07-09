@@ -84,7 +84,7 @@
                         o.ele.stop();
                     }
         
-                    // If the current scrollTop position plus the topOffset is greater
+                    // If the current scrollTop position is greater
                     // than our maxTop value, then make element stick on the page.
                     if (scrollTop > maxTop){
                         
@@ -123,7 +123,8 @@
                             
                             } else {
                                 
-                                yAxis = (o.ele.offset().top + eleHeight + o.bottomOffset);
+                                yAxis = ( cssPosition.top + scrollTop + 
+                                          eleHeight + o.bottomOffset );
                                 footerTop = o.footerElement.offset().top;
                                 
                             }
@@ -199,7 +200,7 @@
                             
                         }   
                         
-                    // ELSE, If the scrollTop of the view port plus the topOffset is
+                    // ELSE, If the scrollTop of the view port is
                     // less than the maxTop, then throw the element back into the 
                     // page normal flow                    
                     } else if (scrollTop <= maxTop) {
