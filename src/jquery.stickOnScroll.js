@@ -89,9 +89,9 @@
                     if (scrollTop > maxTop){
                         
                         cssPosition = {
-                                position:   "fixed",
-                                top:        ( o.topOffset - o.eleTopMargin )
-                            };
+                            position:   "fixed",
+                            top:        ( o.topOffset - o.eleTopMargin )
+                        };
                         
                         if (o.isWindow === false) {
                             
@@ -99,7 +99,17 @@
                                 position:   "absolute",
                                 top:        ( ( scrollTop + o.topOffset ) -  o.eleTopMargin )
                             };
-                        
+                            
+                            // If the viewport is not the element's imediate
+                            // offset parent, then we need to further offset the
+                            // stick position
+                            if (!o.isViewportOffsetParent) {
+                                
+                                // FIXME: need to finish up functionality
+                                
+                            } 
+                            
+                            
                         }
                         
                         o.isStick = true;
@@ -161,6 +171,13 @@
                         if (o.setWidthOnStick === true) {
                             
                             o.ele.css("width", o.ele.css("width"));
+                            
+                        }
+                        
+                        // If we have additional stick offset, apply it now
+                        if (o.additionalStickOffset) {
+                            
+                            cssPosition.top = ( cssPosition.top + o.additionalStickOffset);
                             
                         }
                         
@@ -316,21 +333,22 @@
                 setIntID,
                 setIntTries = 1800; // 1800 tries * 100 milliseconds = 3 minutes
             
-            o.isStick       = false;
-            o.ele           = $(this).addClass("hasStickOnScroll");
-            o.eleParent     = o.ele.parent();
-            o.viewport      = $(o.viewport);
-            o.eleTop        = 0;
-            o.eleTopMargin  = parseFloat( o.ele.css("margin-top") );
-            o.footerElement = $(o.footerElement);
-            o.isWindow      = true;
-            o.isOnStickSet      = $.isFunction(o.onStick);
-            o.isOnUnStickSet    = $.isFunction(o.onUnStick);
-            o.wasStickCalled    = false;
+            o.isStick                   = false;
+            o.ele                       = $(this).addClass("hasStickOnScroll");
+            o.eleParent                 = o.ele.parent();
+            o.viewport                  = $(o.viewport);
+            o.eleTop                    = 0;
+            o.eleTopMargin              = parseFloat( o.ele.css("margin-top") );
+            o.footerElement             = $(o.footerElement);
+            o.isWindow                  = true;
+            o.isOnStickSet              = $.isFunction(o.onStick);
+            o.isOnUnStickSet            = $.isFunction(o.onUnStick);
+            o.wasStickCalled            = false;
+            o.isViewportOffsetParent    = true;
             
             /**
              * Retrieves the element's top position based on the
-             * type of viewport.
+             * type of viewport and sets on the options object for the instance.
              * 
              * @return {Integer} 
              */
@@ -344,7 +362,7 @@
                         
                     } else {
                         
-                        o.eleTop = o.ele.position().top;
+                        o.eleTop = ( o.ele.offset().top - o.viewport.offset().top );
                         
                     }
                     
@@ -402,6 +420,23 @@
                 
                 viewportKey = o.viewport.prop("stickOnScroll");
                 
+                // If the viewport is not the Window element, and the view port is not the
+                // stick element's imediate offset parent, then we need to adjust the 
+                // top-offset so that element are position correctly.
+                // See issue #3 on github
+                if (!o.isWindow) {
+                    
+                    o.isViewportOffsetParent    = ( o.ele.offsetParent()[0] === o.viewport[0] );
+                    
+                    if (!o.isViewportOffsetParent) {
+                        
+                        o.additionalStickOffset = ( o.topOffset - ( o.ele.offset().top - o.viewport.offset().top ) );
+                        
+                    }
+                    
+                    
+                }
+                
                 // If this viewport is not yet defined, set it up now 
                 if (!viewportKey) {
                     
@@ -418,7 +453,7 @@
                 // Trigger a scroll even
                 o.viewport.scroll();
                 
-            }
+            } /* end: addThisEleToViewportList() */
             
             // If Element is not visible, then we have to wait until it is
             // in order to set it up. We need to obtain the top position of
