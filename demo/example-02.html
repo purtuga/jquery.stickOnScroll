@@ -78,6 +78,21 @@
                         
                         
                 /************************ RIGHT PANEL EXAMPLE **********/
+                $("#section5-1")
+                    .css("background-color", "brown")
+                    .stickOnScroll({
+                        viewport:           $("#right_sub_container"),
+                        footerElement:      $("#section5-2").parent(),
+                        setParentOnStick:   true,
+                        setWidthOnStick:    true
+                    });
+                $("#section5-2")
+                    .css("background-color", "brown")
+                    .stickOnScroll({
+                        viewport:           $("#right_sub_container"),
+                        setParentOnStick:   true,
+                        setWidthOnStick:    true
+                    });
                 $("#section6")
                     .css("background-color", "brown")
                     .stickOnScroll({
@@ -169,6 +184,14 @@
                 background-color: black;
                 color: white;
             }
+            
+            #right_sub_container {
+                height: 300px;
+                overflow: auto;
+                border: 3px solid blue;
+                position: relative;
+            }
+            
             
         </style>
     </head>
@@ -311,6 +334,49 @@
                 <p>
                     Rump sirloin short loin, turducken ham hock ribeye tri-tip capicola drumstick corned beef shankle pork belly biltong.  Short loin t-bone spare ribs jowl turducken pork belly tongue.  Pork loin sirloin spare ribs, beef ribs boudin rump meatball shank frankfurter.  Ball tip pork belly tail spare ribs tri-tip jowl, jerky rump t-bone sirloin andouille pork loin biltong ham.  Beef cow bacon sirloin jowl meatball pig strip steak turducken bresaola pork chop kielbasa spare ribs rump turkey.
                 </p>
+                <p>
+                    Rump sirloin short loin, turducken ham hock ribeye tri-tip capicola drumstick corned beef shankle pork belly biltong.  Short loin t-bone spare ribs jowl turducken pork belly tongue.  Pork loin sirloin spare ribs, beef ribs boudin rump meatball shank frankfurter.  Ball tip pork belly tail spare ribs tri-tip jowl, jerky rump t-bone sirloin andouille pork loin biltong ham.  Beef cow bacon sirloin jowl meatball pig strip steak turducken bresaola pork chop kielbasa spare ribs rump turkey.
+                </p>
+                
+                <!--
+                    Recreate problem report with Issue $3
+                    https://github.com/purtuga/jquery.stickOnScroll/issues/3
+                -->
+                <div id="right_sub_container" class="isViewport">
+                    
+                    <p>This area demonstrates the section getting "sticky" even if its first positioned parent (one that has a css position set) is not the viewport. See issue #3 on github. </p>
+                    
+                    <div style="position: relative">
+                        <div>
+                            <div id="section5-1" class="section-header" data-stickonscroll="section4" data-stickyType="element">
+                                #Section 5.1
+                            </div>
+                        </div>
+                        <p>
+                            Rump sirloin short loin, turducken ham hock ribeye tri-tip capicola drumstick corned beef shankle pork belly biltong.  Short loin t-bone spare ribs jowl turducken pork belly tongue.  Pork loin sirloin spare ribs, beef ribs boudin rump meatball shank frankfurter.  Ball tip pork belly tail spare ribs tri-tip jowl, jerky rump t-bone sirloin andouille pork loin biltong ham.  Beef cow bacon sirloin jowl meatball pig strip steak turducken bresaola pork chop kielbasa spare ribs rump turkey.
+                        </p>
+                        <p>
+                            Rump sirloin short loin, turducken ham hock ribeye tri-tip capicola drumstick corned beef shankle pork belly biltong.  Short loin t-bone spare ribs jowl turducken pork belly tongue.  Pork loin sirloin spare ribs, beef ribs boudin rump meatball shank frankfurter.  Ball tip pork belly tail spare ribs tri-tip jowl, jerky rump t-bone sirloin andouille pork loin biltong ham.  Beef cow bacon sirloin jowl meatball pig strip steak turducken bresaola pork chop kielbasa spare ribs rump turkey.
+                        </p>
+                        
+                    </div>
+                    <div>
+                        <div>
+                            <div id="section5-2" class="section-header" data-stickonscroll="section4" data-stickyType="element">
+                                #Section 5.2
+                            </div>
+                        </div>
+                    </div>
+                    <p>
+                        Rump sirloin short loin, turducken ham hock ribeye tri-tip capicola drumstick corned beef shankle pork belly biltong.  Short loin t-bone spare ribs jowl turducken pork belly tongue.  Pork loin sirloin spare ribs, beef ribs boudin rump meatball shank frankfurter.  Ball tip pork belly tail spare ribs tri-tip jowl, jerky rump t-bone sirloin andouille pork loin biltong ham.  Beef cow bacon sirloin jowl meatball pig strip steak turducken bresaola pork chop kielbasa spare ribs rump turkey.
+                    </p>
+                    <p>
+                        Rump sirloin short loin, turducken ham hock ribeye tri-tip capicola drumstick corned beef shankle pork belly biltong.  Short loin t-bone spare ribs jowl turducken pork belly tongue.  Pork loin sirloin spare ribs, beef ribs boudin rump meatball shank frankfurter.  Ball tip pork belly tail spare ribs tri-tip jowl, jerky rump t-bone sirloin andouille pork loin biltong ham.  Beef cow bacon sirloin jowl meatball pig strip steak turducken bresaola pork chop kielbasa spare ribs rump turkey.
+                    </p>
+                    
+                    
+                </div> <!-- id#right_sub_container -->
+                
                 <p>
                     Rump sirloin short loin, turducken ham hock ribeye tri-tip capicola drumstick corned beef shankle pork belly biltong.  Short loin t-bone spare ribs jowl turducken pork belly tongue.  Pork loin sirloin spare ribs, beef ribs boudin rump meatball shank frankfurter.  Ball tip pork belly tail spare ribs tri-tip jowl, jerky rump t-bone sirloin andouille pork loin biltong ham.  Beef cow bacon sirloin jowl meatball pig strip steak turducken bresaola pork chop kielbasa spare ribs rump turkey.
                 </p>
