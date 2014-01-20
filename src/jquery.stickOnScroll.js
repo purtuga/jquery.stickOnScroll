@@ -63,9 +63,14 @@
                 // If element has no parent, then it must have been removed from DOM...
                 // Remove reference to it
                 if (o !== null) {
-                    if (o.ele[0].parentNode === null) {
+                    
+                    // jquery contains works on dom object; not jquery selections
+                    if (!$.contains(document.documentElement, o.ele[0])) {
+                        
                         elements[i] = o = null;
-                    }
+                        
+                    } 
+                    
                 }
                 if (o !== null) {
     
@@ -86,7 +91,7 @@
         
                     // If the current scrollTop position is greater
                     // than our maxTop value, then make element stick on the page.
-                    if (scrollTop > maxTop){
+                    if (scrollTop >= maxTop){
                         
                         cssPosition = {
                             position:   "fixed",
@@ -100,16 +105,6 @@
                                 top:        ( ( scrollTop + o.topOffset ) -  o.eleTopMargin )
                             };
                             
-                            // If the viewport is not the element's imediate
-                            // offset parent, then we need to further offset the
-                            // stick position
-                            if (!o.isViewportOffsetParent) {
-                                
-                                // FIXME: need to finish up functionality
-                                
-                            } 
-                            
-                            
                         }
                         
                         o.isStick = true;
@@ -122,7 +117,7 @@
                             // Calculate the distance from the *bottom* of the fixed
                             // element to the footer element, taking into consideration
                             // the bottomOffset that may have been set by the user. 
-                            footerTop   = o.footerElement.position().top;
+                            footerTop   = o.getEleTopPosition(o.footerElement);
                             eleHeight   = o.ele.outerHeight();
                             yAxis       = ( cssPosition.top + eleHeight + 
                                             o.bottomOffset + o.topOffset );
@@ -135,10 +130,14 @@
                                 
                                 yAxis = ( cssPosition.top + scrollTop + 
                                           eleHeight + o.bottomOffset );
-                                footerTop = o.footerElement.offset().top;
+                                          
+                                footerTop = o.getElementDistanceFromViewport(o.footerElement);
                                 
                             }
                             
+                            // If the footer element is overstopping the sticky element
+                            // position, then adjust it so that we make room for the
+                            // fotoer element.
                             if (yAxis > footerTop) {
                                 
                                 if (o.isWindow === true) {
@@ -175,9 +174,11 @@
                         }
                         
                         // If we have additional stick offset, apply it now
-                        if (o.additionalStickOffset) {
+                        if (!o.isViewportOffsetParent) {
                             
-                            cssPosition.top = ( cssPosition.top + o.additionalStickOffset);
+                            cssPosition.top = ( 
+                                cssPosition.top - o.getElementDistanceFromViewport(o.eleOffsetParent)
+                            );
                             
                         }
                         
@@ -336,6 +337,7 @@
             o.isStick                   = false;
             o.ele                       = $(this).addClass("hasStickOnScroll");
             o.eleParent                 = o.ele.parent();
+            o.eleOffsetParent           = o.ele.offsetParent();
             o.viewport                  = $(o.viewport);
             o.eleTop                    = 0;
             o.eleTopMargin              = parseFloat( o.ele.css("margin-top") );
@@ -347,8 +349,9 @@
             o.isViewportOffsetParent    = true;
             
             /**
-             * Retrieves the element's top position based on the
-             * type of viewport and sets on the options object for the instance.
+             * Retrieves the element's top position based on the type of viewport
+             * and sets on the options object for the instance. This Top position
+             * is the element top position relative to the the viewport.
              * 
              * @return {Integer} 
              */
@@ -368,7 +371,35 @@
                     
                 }
                 
-            }; //end: o.getEleTop()
+            }; //end: o.setEleTop()
+            
+            /**
+             * REturns an elements top position in relation
+             * to the viewport's Top Position.
+             *  
+             * @param {jQuery} $ele
+             *          This element must be inside the viewport
+             * 
+             * @return {Integer}
+             * 
+             */
+            o.getEleTopPosition = function($ele) {
+                
+                var pos = 0;
+                
+                if (o.isWindow) {
+                    
+                    pos = $ele.offset().top;
+                    
+                } else {
+                    
+                    pos = ( $ele.offset().top - o.viewport.offset().top );
+                    
+                }
+                
+                return pos;
+                   
+            }; /* o.getEleTopPosition() */
             
             /**
              * Get's the MAX top position for the element before it
@@ -387,17 +418,60 @@
                     
                     max = (max + o.eleTopMargin);
                     
+                    // If ele parent is not the viewport, then adjust the max top
+                    
+                    
                 }
-                
-                // if (max < o.eleTop) {
-//                     
-                    // max = o.eleTop;
-//                     
-                // }
                 
                 return max;
                 
             }; //end: o.getEleMaxTop()
+            
+            /**
+             * Gets the distance between the top of the element and the
+             * top of the viewport. Basically the offset from the top of
+             * the "page" inside the viewport. This distance is alwasy the
+             * same even if the viewport is scrolled. The only time it
+             * changes is when elements are inserted or removed above the
+             * the Element or item above it are hidden/displayed.
+             * Methods uses the Position() values until it reaches the
+             * viewport
+             */
+            o.getElementDistanceFromViewport = function($ele) {
+                
+                var distance    = $ele.position().top,
+                    $parent     = $ele.offsetParent();
+                
+                // If the parent element is the root body element, then
+                // we've reached the last possible offsetParent(). Exit
+                if ($parent.is("body")) {
+                    
+                    return distance;
+                    
+                }
+                
+                // If the positioned parent of this element is NOT
+                // the viewport, then add the distance of that element's
+                // top position
+                if ($parent[0] !== o.viewport[0] ) {
+                    
+                    distance = ( 
+                        distance + 
+                        o.getElementDistanceFromViewport( $parent )
+                    );
+                    
+                // ELSE, this is the viewport... Adjust the elements
+                // Distance by adding on the amount of scroll the element
+                // currently has
+                } else {
+                    
+                    distance = (distance + o.viewport.scrollTop());
+                    
+                }
+                
+                return distance;
+                
+            }; /* end: .getElementDistanceFromViewport() */
             
             // If setParentOnStick is true, and the parent element
             // is the <body>, then set setParentOnStick to false.
@@ -407,13 +481,16 @@
                 
             }
             
-            
             if (!$.isWindow(o.viewport[0])) {
                 
                 o.isWindow  = false;
                 
             }
             
+            /**
+             * Adds this sticky element to the list of element for the viewport.
+             *  
+             */
             function addThisEleToViewportList() {
                 
                 o.setEleTop();
@@ -426,14 +503,7 @@
                 // See issue #3 on github
                 if (!o.isWindow) {
                     
-                    o.isViewportOffsetParent    = ( o.ele.offsetParent()[0] === o.viewport[0] );
-                    
-                    if (!o.isViewportOffsetParent) {
-                        
-                        o.additionalStickOffset = ( o.topOffset - ( o.ele.offset().top - o.viewport.offset().top ) );
-                        
-                    }
-                    
+                    o.isViewportOffsetParent    = ( o.eleOffsetParent[0] === o.viewport[0] );
                     
                 }
                 
@@ -466,18 +536,17 @@
             } else {
                 
                 setIntID = setInterval(function(){
-                            
-                            if (o.ele.is(":visible") || !setIntTries) {
-                                
-                                clearInterval(setIntID);
-                                addThisEleToViewportList();
-                                
-                            }
-                            
-                            --setIntTries;
-                            
-                        },
-                        100);
+                    
+                    if (o.ele.is(":visible") || !setIntTries) {
+                        
+                        clearInterval(setIntID);
+                        addThisEleToViewportList();
+                        
+                    }
+                    
+                    --setIntTries;
+                    
+                }, 100);
                 
             }
             
