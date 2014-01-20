@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>jquery.stickOnScroll</title>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script type="text/javascript" src="../src/jquery.stickOnScroll.js"></script>
+        <link href="demo.css" rel="stylesheet" type="text/css" />
+        <script>
+            $(function() {
+                
+                $("#menu").stickOnScroll({
+                    setParentOnStick:   true,
+                    setWidthOnStick:    true
+                });
+                
+                /**
+                 * In the examples below, the height of the parent container
+                 * to the element that will be "stick" is set prior to calling
+                 * the plugin.  Doing this will ensure that the page's structure
+                 * is maintained after the "stick" element is removed from the
+                 * normal document flow and fixed in a static position.
+                 */
+                
+                $("#section5-1")
+                    .css("background-color", "brown")
+                    .stickOnScroll({
+                        viewport:           $("#right_sub_container"),
+                        footerElement:      $("#section5-1-1").parent(),
+                        setParentOnStick:   true,
+                        setWidthOnStick:    true
+                    });
+                $("#section5-1-1")
+                    .css("background-color", "brown")
+                    .stickOnScroll({
+                        viewport:           $("#right_sub_container"),
+                        footerElement:      $("#section5-1-2").parent(),
+                        setParentOnStick:   true,
+                        setWidthOnStick:    true
+                    });
+                $("#section5-1-2")
+                    .css("background-color", "brown")
+                    .stickOnScroll({
+                        viewport:           $("#right_sub_container"),
+                        footerElement:      $("#section5-2").parent(),
+                        setParentOnStick:   true,
+                        setWidthOnStick:    true
+                    });
+                $("#section5-2")
+                    .css("background-color", "brown")
+                    .stickOnScroll({
+                        viewport:           $("#right_sub_container"),
+                        setParentOnStick:   true,
+                        setWidthOnStick:    true
+                    });
+                
+            });
+        </script>
+        <style>
+            body {
+                height: 10000px;
+                padding: 1em;
+                margin: 0;
+                font-size: 14pt;
+                line-height: 2em;
+            }
+            
+            .isViewport {
+                position: relative;
+            }
+            
+            #right_sub_container {
+                height: 20em;
+                overflow: auto;
+                border: 1px solid black;
+                padding: .5em;
+            }
+            
+            
+        </style>
+    </head>
+    <body>
+        <h1>jQuery.stickOnScroll.js Test</h1>
+        <p>
+           This page tests making element sticky when their imediate offset parent is NOT the viewport. In these cases, the position of the element can not be used because reports the TOP as relative to the first offset parent.
+        </p>
+        <div>
+            <div id="menu" data-stickyType="window" style="background-color: yellow;">
+                <a href="example-01.html">Example 1</a> |
+                <a href="example-02.html">Example 2</a> |
+                <a href="example-03.html">Example 3</a> | 
+                <a href="example-04.html">Example 4</a> |
+            </div>
+        </div>
+        <hr/>
+        
+        
+        <div id="body_container">
+            
+            <h3>Page Content</h3>
+            
+            <p>
+                Use the container below to test the elements inside of it and ensure they
+                are "sticky" correct. the element that are center aligned are inside a 
+                relative container and thus their offset is calcualted differently.
+            </p>
+            
+            <p>There are also elements that can be hidden/shown to see how the plugin handles
+                changes to element's position on the page.</p>
+            
+            <!--
+                Recreate problem report with Issue $3
+                https://github.com/purtuga/jquery.stickOnScroll/issues/3
+            -->
+            <div id="right_sub_container" class="isViewport">
+                
+                <p>This area demonstrates the section getting "sticky" even if its first positioned parent (one that has a css position set) is not the viewport. See issue #3 on github. </p>
+                <p style="height:4em;">
+                    
+                </p>
+                <div style="width:80%;position:relative; padding:.5em;margin-left:9%;">
+                    <div>
+                        <div id="section5-1" class="section-header" data-stickonscroll="section4" data-stickyType="element">
+                            #Section 5.1
+                        </div>
+                    </div>
+                    <p>
+                        Rump sirloin short loin, turducken ham hock ribeye tri-tip capicola drumstick corned beef shankle pork belly biltong.  Short loin t-bone spare ribs jowl turducken pork belly tongue.  Pork loin sirloin spare ribs, beef ribs boudin rump meatball shank frankfurter.  Ball tip pork belly tail spare ribs tri-tip jowl, jerky rump t-bone sirloin andouille pork loin biltong ham.  Beef cow bacon sirloin jowl meatball pig strip steak turducken bresaola pork chop kielbasa spare ribs rump turkey.
+                    </p>
+                    <p>
+                        Rump sirloin short loin, turducken ham hock ribeye tri-tip capicola drumstick corned beef shankle pork belly biltong.  Short loin t-bone spare ribs jowl turducken pork belly tongue.  Pork loin sirloin spare ribs, beef ribs boudin rump meatball shank frankfurter.  Ball tip pork belly tail spare ribs tri-tip jowl, jerky rump t-bone sirloin andouille pork loin biltong ham.  Beef cow bacon sirloin jowl meatball pig strip steak turducken bresaola pork chop kielbasa spare ribs rump turkey.
+                    </p>
+                    <div>
+                        <a href="javascript:" onclick="$('#showhide1').toggle()">Show/Hide element below</a>
+                    </div>
+                    <p id="showhide1">
+                        <strong>
+                        Rump sirloin short loin, turducken ham hock ribeye tri-tip capicola drumstick corned beef shankle pork belly biltong.  Short loin t-bone spare ribs jowl turducken pork belly tongue.  Pork loin sirloin spare ribs, beef ribs boudin rump meatball shank frankfurter.  Ball tip pork belly tail spare ribs tri-tip jowl, jerky rump t-bone sirloin andouille pork loin biltong ham.  Beef cow bacon sirloin jowl meatball pig strip steak turducken bresaola pork chop kielbasa spare ribs rump turkey.
+                        </strong>
+                    </p>
+                    <div>
+                        <div id="section5-1-1" class="section-header" data-stickonscroll="section4" data-stickyType="element">
+                            #Section 5.1.1
+                        </div>
+                    </div>
+                    <p>
+                        Rump sirloin short loin, turducken ham hock ribeye tri-tip capicola drumstick corned beef shankle pork belly biltong.  Short loin t-bone spare ribs jowl turducken pork belly tongue.  Pork loin sirloin spare ribs, beef ribs boudin rump meatball shank frankfurter.  Ball tip pork belly tail spare ribs tri-tip jowl, jerky rump t-bone sirloin andouille pork loin biltong ham.  Beef cow bacon sirloin jowl meatball pig strip steak turducken bresaola pork chop kielbasa spare ribs rump turkey.
+                    </p>
+                    <p>
+                        Rump sirloin short loin, turducken ham hock ribeye tri-tip capicola drumstick corned beef shankle pork belly biltong.  Short loin t-bone spare ribs jowl turducken pork belly tongue.  Pork loin sirloin spare ribs, beef ribs boudin rump meatball shank frankfurter.  Ball tip pork belly tail spare ribs tri-tip jowl, jerky rump t-bone sirloin andouille pork loin biltong ham.  Beef cow bacon sirloin jowl meatball pig strip steak turducken bresaola pork chop kielbasa spare ribs rump turkey.
+                    </p>
+                    <div>
+                        <div id="section5-1-2" class="section-header" data-stickonscroll="section4" data-stickyType="element">
+                            #Section 5.1.2
+                        </div>
+                    </div>
+                    <p>
+                        Rump sirloin short loin, turducken ham hock ribeye tri-tip capicola drumstick corned beef shankle pork belly biltong.  Short loin t-bone spare ribs jowl turducken pork belly tongue.  Pork loin sirloin spare ribs, beef ribs boudin rump meatball shank frankfurter.  Ball tip pork belly tail spare ribs tri-tip jowl, jerky rump t-bone sirloin andouille pork loin biltong ham.  Beef cow bacon sirloin jowl meatball pig strip steak turducken bresaola pork chop kielbasa spare ribs rump turkey.
+                    </p>
+                    <p>
+                        Rump sirloin short loin, turducken ham hock ribeye tri-tip capicola drumstick corned beef shankle pork belly biltong.  Short loin t-bone spare ribs jowl turducken pork belly tongue.  Pork loin sirloin spare ribs, beef ribs boudin rump meatball shank frankfurter.  Ball tip pork belly tail spare ribs tri-tip jowl, jerky rump t-bone sirloin andouille pork loin biltong ham.  Beef cow bacon sirloin jowl meatball pig strip steak turducken bresaola pork chop kielbasa spare ribs rump turkey.
+                    </p>
+                    
+                </div>
+                <p></p>
+                <div>
+                    <div>
+                        <div id="section5-2" class="section-header" data-stickonscroll="section4" data-stickyType="element">
+                            #Section 5.2
+                        </div>
+                    </div>
+                </div>
+                <p>
+                    Rump sirloin short loin, turducken ham hock ribeye tri-tip capicola drumstick corned beef shankle pork belly biltong.  Short loin t-bone spare ribs jowl turducken pork belly tongue.  Pork loin sirloin spare ribs, beef ribs boudin rump meatball shank frankfurter.  Ball tip pork belly tail spare ribs tri-tip jowl, jerky rump t-bone sirloin andouille pork loin biltong ham.  Beef cow bacon sirloin jowl meatball pig strip steak turducken bresaola pork chop kielbasa spare ribs rump turkey.
+                </p>
+                <p>
+                    Rump sirloin short loin, turducken ham hock ribeye tri-tip capicola drumstick corned beef shankle pork belly biltong.  Short loin t-bone spare ribs jowl turducken pork belly tongue.  Pork loin sirloin spare ribs, beef ribs boudin rump meatball shank frankfurter.  Ball tip pork belly tail spare ribs tri-tip jowl, jerky rump t-bone sirloin andouille pork loin biltong ham.  Beef cow bacon sirloin jowl meatball pig strip steak turducken bresaola pork chop kielbasa spare ribs rump turkey.
+                </p>
+                
+                <p>
+                    Rump sirloin short loin, turducken ham hock ribeye tri-tip capicola drumstick corned beef shankle pork belly biltong.  Short loin t-bone spare ribs jowl turducken pork belly tongue.  Pork loin sirloin spare ribs, beef ribs boudin rump meatball shank frankfurter.  Ball tip pork belly tail spare ribs tri-tip jowl, jerky rump t-bone sirloin andouille pork loin biltong ham.  Beef cow bacon sirloin jowl meatball pig strip steak turducken bresaola pork chop kielbasa spare ribs rump turkey.
+                </p>
+                
+                <p>
+                    Rump sirloin short loin, turducken ham hock ribeye tri-tip capicola drumstick corned beef shankle pork belly biltong.  Short loin t-bone spare ribs jowl turducken pork belly tongue.  Pork loin sirloin spare ribs, beef ribs boudin rump meatball shank frankfurter.  Ball tip pork belly tail spare ribs tri-tip jowl, jerky rump t-bone sirloin andouille pork loin biltong ham.  Beef cow bacon sirloin jowl meatball pig strip steak turducken bresaola pork chop kielbasa spare ribs rump turkey.
+                </p>
+                
+                <p>
+                    Rump sirloin short loin, turducken ham hock ribeye tri-tip capicola drumstick corned beef shankle pork belly biltong.  Short loin t-bone spare ribs jowl turducken pork belly tongue.  Pork loin sirloin spare ribs, beef ribs boudin rump meatball shank frankfurter.  Ball tip pork belly tail spare ribs tri-tip jowl, jerky rump t-bone sirloin andouille pork loin biltong ham.  Beef cow bacon sirloin jowl meatball pig strip steak turducken bresaola pork chop kielbasa spare ribs rump turkey.
+                </p>
+                
+                
+            </div> <!-- id#right_sub_container -->
+        </div>
+        
+        <script type="text/javascript" src="dev.debug.js"></script>
+        
+    </body>
+</html>
