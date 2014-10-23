@@ -340,7 +340,9 @@
             o.eleOffsetParent           = o.ele.offsetParent();
             o.viewport                  = $(o.viewport);
             o.eleTop                    = 0;
-            o.eleTopMargin              = parseFloat( (o.ele.css("margin-top") || 0) );
+            o.eleTopMargin              = parseFloat(
+                                            (o.ele.css("margin-top") || 0)
+                                        ) || 0;
             o.footerElement             = $(o.footerElement);
             o.isWindow                  = true;
             o.isOnStickSet              = $.isFunction(o.onStick);
