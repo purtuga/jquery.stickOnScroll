@@ -1,0 +1,27 @@
+{
+  "name": "jquery.stickOnScroll",
+  "version": "1.4.0",
+  "homepage": "https://github.com/purtuga/jquery.stickOnScroll",
+  "authors": [
+    "Paul Tavares"
+  ],
+  "description": "jQuery Plugin for making element sticky within scrolling areas",
+  "main": "src/jquery.stickOnScroll.js",
+  "moduleType": [
+    "amd"
+  ],
+  "keywords": [
+    "jquery",
+    "stick",
+    "sticky",
+    "fixed"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

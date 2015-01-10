@@ -7,7 +7,14 @@
  * Licensed under the terms of the MIT License
  *
  */
-;(function($){
+
+;(function(factory) {
+    if (typeof define === 'function' && define.amd) {
+        define(['jquery'], factory);
+    } else {
+        factory(jQuery);
+    }
+}(function($){
 
     "use strict";
     /*jslint plusplus: true */
@@ -558,4 +565,4 @@
 
     };//end: $.fn.stickOnScroll()
 
-})(jQuery);
+}));
