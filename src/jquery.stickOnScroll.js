@@ -530,7 +530,7 @@
                 viewports[viewportKey].push(o);
 
                 // Trigger a scroll even
-                o.viewport.scroll();
+                o.viewport.trigger("scroll");
 
             } /* end: addThisEleToViewportList() */
 
